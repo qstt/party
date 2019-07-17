@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>党员管理</title>
+    <link rel="stylesheet" type="text/css" href="../../js/jq_easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/jq_easyui/themes/icon.css">
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jq_easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../js/jq_easyui/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="../../js/datagrid-detailview.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript" src="../../js/user.js"></script>
+    <style type="text/css">
+    .footer {
+        width: 100%;
+        height: 80px;
+        text-align: center;
+        line-height: 35px;
+        background-color: #d8e4fe;
+    }
+    
+    .top-bg {
+        background-color: #d8e4fe;
+        height: 80px;
+    }
+    .datagrid-row-detail .datagrid-header{
+    	position:absolute;
+    	visibility:hidden;
+    }
+    </style>
+</head>
+
+<body style="padding-top: 0; margin:0px;padding-bottom: 0;">
+    <!-- 数据展示 -->
+    <div id="divSearch" style="margin:0px; text-align:left;margin: 0px;">
+        <div class="easyui-panel" title="数据展示" data-options="fit:true">
+        </div>
+    </div>
+    <div style="margin-top:10px;margin-bottom:10px;background-color:#fff;font-size:12px;">
+    	<table class="search_table">
+                <tr>
+                    <td nowrap="nowrap" width="10px"></td>
+					 <td width="40px">姓名:</td>
+                       <td >
+                        <input class="easyui-textbox" id="p_name" data-options="" style="width:150px"> 
+                      </td>
+                    <td nowrap="nowrap" width="10px"></td>
+                    <td width="70px"><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" style="padding: 0; color: blue;" onclick="loadgrid();">查询</a></td>
+                    <td><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" style="padding: 0; color: blue;" onclick="reset();">重置</a></td>
+                    <td id="add"><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" style="padding: 0; color: blue;margin-left:20px" onclick="add();">添加党员</a></td>
+                    <td id="update"><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" style="padding: 0; color: blue;margin-left:20px" onclick="update();">修改个人信息</a></td>
+                </tr>
+         </table>
+    </div>
+    <div id="div_grid" style="margin: 0px;padding: 0px;">
+        <table id="dg"></table>
+    </div>
+    
+    <div id="addEmp" class="easyui-window" title="添加设计师 " style="width:600px;height:280px"   
+        data-options="iconCls:'icon-save',modal:true,collapsible:false,minimizable:false,maximizable:false">   
+	    <div class="easyui-layout" data-options="fit:true">   
+	        <div data-options="region:'center'" > 
+	        	<div style="width:400px;height:150px;margin-left: 150px;">
+	        		<div style="height:20px;"></div>
+	        		  登陆账号：<input type="text" id="username" class="easyui-textbox"
+								style="width:200px;margin-top:20px;" />
+								<br><br>
+					 真实姓名：<input type="text" id="realname" class="easyui-textbox"
+								style="width:200px;margin-top:20px;"/>
+								<br><br>
+	        		 性&emsp;&emsp;别：<select id="sex" class="easyui-combobox" style="width:200px;height:24px;">
+	                        	<option value="男">男</option>
+	                        	<option value="女">女</option>
+						 	</select><br><br>
+					  联系电话：<input type="text" id="phone" class="easyui-textbox"
+								style="width:200px;margin-top:20px;"/>
+								<br><br>
+	        	</div>  
+	           <div  style="margin:0 auto;margin-top:20px;width:110px;margin-left:260px;">
+					<a class="easyui-linkbutton"
+							data-options="iconCls:'icon-ok'" href="javascript:void(0)"
+							onClick="addEmp()">确定添加</a>
+			</div>
+	        </div>   
+	    </div>   
+	</div>
+	<div id="updateEmp" class="easyui-window" title="设计师信息修改" style="width:600px;height:280px"   
+        data-options="iconCls:'icon-save',modal:true,collapsible:false,minimizable:false,maximizable:false">   
+	    <div class="easyui-layout" data-options="fit:true">   
+	        <div data-options="region:'center'" > 
+	        	<div style="width:400px;height:150px;margin-left: 150px;">
+	        		<div style="height:20px;"></div>
+	        		登陆账号：<input type="text" id="username1" class="easyui-textbox"
+								style="width:200px;margin-top:20px;" readonly/>
+								<br><br>
+					 真实姓名：<input type="text" id="realname1" class="easyui-textbox"
+								style="width:200px;margin-top:20px;"/>
+								<br><br>
+	        		 性&emsp;&emsp;别：<select id="sex1" class="easyui-combobox" style="width:200px;height:24px;">
+	                        	<option value="男">男</option>
+	                        	<option value="女">女</option>
+						 	</select><br><br>
+					  联系电话：<input type="text" id="phone1" class="easyui-textbox"
+								style="width:200px;margin-top:20px;"/>
+								<br><br>
+	        	</div>  
+	           <div  style="margin:0 auto;margin-top:20px;width:110px;margin-left:260px;">
+					<a class="easyui-linkbutton"
+							data-options="iconCls:'icon-ok'" href="javascript:void(0)"
+							onClick="updateEmp()">确定修改</a>
+			</div>
+	        </div>   
+	    </div>   
+	</div>
+<script type="text/javascript">
+	$(function(){
+		$('#addEmp').window('close');
+		$('#updateEmp').window('close');
+		var user = getUserInfo();
+		if(user.role == 2){
+			$("#add").hide();
+			$("#update").show();
+		}else{
+			$("#add").show();
+			$("#update").hide();
+		}
+        $('#dg').datagrid({
+       		url:"http://"+window.location.host+"/party/users/getAll.do",
+            singleSelect: true,
+            rownumbers: true,
+            fixed: true,
+            nowrap: true,
+            striped: true, //条纹
+            width: "100%",
+            height: "auto",
+            showFooter:true,
+            pagination: true, //分页控件
+            pageNumber: 1,//当前页码
+            pageSize: 10,//页面最大数量
+            pageList: [10,20, 30, 40, 50],
+            columns:user.role == 1 ? [
+                [{
+                    field: 'username',
+                    title: '用户名',
+                    width: 110,
+                    align: 'center',
+                   
+                },{
+                    field: 'realname',
+                    title: '真实姓名',
+                    width: 120,
+                    align: 'center',
+                },{
+                    field: 'sex',
+                    title: '性别',
+                    width: 80,
+                    align: 'center',
+                },{
+                    field: 'tel',
+                    title: '联系电话',
+                    width: 120,
+                    align: 'center',
+                },{
+                    field: 'cz',
+                    title: '操作',
+                    width: 150,
+                    align: 'center',
+                    formatter:function(value,row,index){
+							var s = '<a href="#"  onclick="resetPwd(this)">重置密码</a>&emsp;';
+							var c = '<a href="#" onclick="del(this)">删除</a>';
+							return s + c;
+					}
+                }]] :
+                [[{
+                    field: 'username',
+                    title: '用户名',
+                    width: 110,
+                    align: 'center',
+                   
+                },{
+                    field: 'realname',
+                    title: '真实姓名',
+                    width: 120,
+                    align: 'center',
+                },{
+                    field: 'sex',
+                    title: '性别',
+                    width: 80,
+                    align: 'center',
+                },{
+                    field: 'tel',
+                    title: '联系电话',
+                    width: 120,
+                    align: 'center',
+                }]]
+        }).datagrid({loadFilter:pagerFilter});
+	});
+	function loadgrid(){
+		var name = $("#p_name").val();
+		var user = getUserInfo();
+		$('#dg').datagrid({
+			url:"http://"+window.location.host+"/party/users/getByName.do?name="+name,
+            singleSelect: true,
+            rownumbers: true,
+            fixed: true,
+            nowrap: true,
+            striped: true, //条纹
+            width: "100%",
+            height: "auto",
+            showFooter:true,
+            pagination: true, //分页控件
+            pageNumber: 1,
+            pageSize: 10,
+            pageList: [10,20, 30, 40, 50],
+            columns: user.type == 1 ? [
+                [{
+                    field: 'username',
+                    title: '用户名',
+                    width: 110,
+                    align: 'center',
+                   
+                },{
+                    field: 'realname',
+                    title: '真实姓名',
+                    width: 120,
+                    align: 'center',
+                },{
+                    field: 'sex',
+                    title: '性别',
+                    width: 80,
+                    align: 'center',
+                },{
+                    field: 'tel',
+                    title: '联系电话',
+                    width: 120,
+                    align: 'center',
+                },
+               {
+                    field: 'cz',
+                    title: '操作',
+                    width: 150,
+                    align: 'center',
+                    formatter:function(value,row,index){
+							var s = '<a href="#"  onclick="resetPwd(this)">重置密码</a>&emsp;';
+							var c = '<a href="#" onclick="del(this)">标记离职</a>';
+							return s + c;
+					}
+                }]] :
+                [[{
+                    field: 'username',
+                    title: '用户名',
+                    width: 110,
+                    align: 'center',
+                   
+                },{
+                    field: 'realname',
+                    title: '真实姓名',
+                    width: 120,
+                    align: 'center',
+                },{
+                    field: 'sex',
+                    title: '性别',
+                    width: 80,
+                    align: 'center',
+                },{
+                    field: 'tel',
+                    title: '联系电话',
+                    width: 120,
+                    align: 'center',
+                }]]
+        }).datagrid({loadFilter:pagerFilter});
+	}
+	function reset(){
+		location.reload();
+	}
+	function resetPwd(target){
+		var username = $(target).parent().parent().parent().children(":first").children().html();
+		$.messager.confirm('确认','您确认想要重置密码吗？',function(r){    
+		    if (r){    
+		        $.ajax({
+					url:"http://"+window.location.host+"/party/users/resetPwd.do",
+		    		type:"post",
+		    		dataType:"json",
+		    		data:{"username":username},
+		    		async:false,
+		    		success:function(result){
+		    			$.messager.alert('提示','重置成功！');    
+		    		},
+		    		error:function(){
+		    			alert("提交失败");
+		    		}
+				});   
+		    }    
+		});  
+	}
+	function del(target){
+		var username = $(target).parent().parent().parent().children(":first").children().html();
+		$.messager.confirm('确认','您确认要删除吗？',function(r){    
+		    if (r){    
+		        $.ajax({
+					url:"http://"+window.location.host+"/party/users/del.do",
+		    		type:"post",
+		    		dataType:"json",
+		    		data:{"username":username},
+		    		async:false,
+		    		success:function(result){
+		    			$.messager.alert('提示','删除成功！'); 
+		    			reset();
+		    		},
+		    		error:function(){
+		    			alert("提交失败");
+		    		}
+				});   
+		    }    
+		});  
+	}
+	function add(){
+		$('#addEmp').window('open');
+	}
+	function update(){
+		var user = getUserInfo();
+		$('#updateEmp').window('open');
+		$("#username1").val(user.username);
+		$("#realname1").val(user.realname);
+		$("#sex1").val(user.sex);
+		$("#phone1").val(user.tel);
+	}
+	function addEmp(){
+		var user = {};
+		user.username = $("#username").val();
+		user.realname = $("#realname").val();
+		user.sex = $("#sex").val();
+		user.tel = $("#phone").val();
+		 $.ajax({
+			url:"http://"+window.location.host+"/party/users/add.do",
+    		type:"post",
+    		dataType:"json",
+    		data:user,
+    		async:false,
+    		success:function(result){
+				if(result.status == 1){
+					$.messager.alert('提示','添加成功！');
+					reset();
+				}else{
+					$.messager.alert('警告','添加失败！');
+				}
+    		},
+    		error:function(){
+    			alert("提交失败");
+    		}
+		}); 
+	}
+	function updateEmp(){
+		var user = {};
+		user.username = $("#username1").val();
+		user.realname = $("#realname1").val();
+		user.sex = $("#sex1").val();
+		user.phone = $("#phone1").val();
+		 $.ajax({
+			url:"http://"+window.location.host+"/party/users/update.do",
+    		type:"post",
+    		dataType:"json",
+    		data:user,
+    		async:false,
+    		success:function(result){
+				if(result.status == 1){
+					$.messager.alert('提示','修改成功！');
+					$('#updateEmp').window('close');
+				}else{
+					$.messager.alert('警告','修改失败！');
+				}
+    		},
+    		error:function(){
+    			alert("提交失败");
+    		}
+		}); 
+	}
+</script> 
+</body>
+
+</html>

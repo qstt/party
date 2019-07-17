@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>USTC-软设3班党支部</title>
+<link rel="stylesheet" type="text/css"
+	href="../themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="../themes/icon.css">
+<script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../js/user.js"></script>
+<style type="text/css">
+.main-logo {
+	width:195px;
+	height: 70px;
+	float: left;
+}
+
+.main-css {
+	margin: 0 auto;
+	width: 100%;
+	background-image: url(../img/logoleft.jpeg);
+	height: 69px;
+	border: #99BBE8 solid 1px;
+}
+
+.main-info {
+	float: right;
+	width: 200px;
+	height: 62px;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.main-top {
+	text-align: center;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.main-center {
+	height: 70px;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: bold;
+	color: #126058;
+}
+
+.Tmenu {
+	margin-left: 30px;
+	width: 80px;
+	text-align: center;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.Tmenu ul li {
+	margin-top: 10px;
+	margin-left: -40px;
+	list-style-type: none;
+}
+
+.Tmenu ul li a {
+	text-decoration: none;
+}
+</style>
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'north',split:false,border:false"
+		style=" background-color:#DBEBEA;height:71px;padding:0px;overflow:hidden;">
+		<div class="main-css">
+			<div class="main-info">
+				<div class="main-top" style="content-top:20px;" id="nameMsg"></div>
+				<div class="main-buttom">
+					<a href="javascript:void(0)" class="easyui-linkbutton" 
+						iconCls="icon-reload" onclick="logout()">退出</a>
+					<a href="javascript:void(0)" class="easyui-linkbutton" 
+						iconCls="icon-help" onclick="chahgePwd()">修改密码</a>
+				</div>
+			</div>
+			<div class="main-center">
+				<h1>USTC-软设3班党支部</h1>
+			</div>
+		</div>
+	</div>
+	<div data-options="region:'south',split:false"
+		style="height:50px;padding:4px;background:#DBEBEA;">
+		<div style=" text-align:center;top:4px;">
+			 版权所有 <br />
+		</div>
+	</div>
+	<!--菜单设置-->
+	<div data-options="region:'west',split:true,border:false" iconCls="icon-usergroup" 
+		 title="系统导航" style="width:220px;padding:1px;overflow:hidden;">
+	 <!--导航begin-->
+		<div class="easyui-accordion" data-options="fit:true,border:false">
+			<div title="活动管理" id="yhgl" style="padding:10px;" iconCls="icon-stats" >		 
+			   <div   class="Tmenu" > 
+					<ul>
+						<li style="font-size:13px;">  
+							<a href="#" onClick="goto(this)" title="未开始讲座"  iconCls="icon-stats"  url="../../pages/lecture/newLecture.html">
+							<img src="../img/cal.png"    width="64" height="64"></img><br/>未开始活动</a> 
+						</li> 
+						<li style="font-size:13px;">  
+							<a href="#" onClick="goto(this)" title="已结束讲座"  iconCls="icon-stats"  url="../../pages/lecture/oldLecture.html">
+							<img src="../img/cal.png"    width="64" height="64"></img><br/>已结束活动</a> 
+						</li> 
+					</ul>
+				</div> 
+			</div>
+			<div title="支部书记管理" id="swgl" iconCls="icon-tip"
+				style="padding:5px;overflow:auto;">
+				<div class="Tmenu">
+					<ul>
+						<li style="font-size:13px;">  
+							<a href="#" onClick="goto(this)" title="支部书记管理"
+								iconCls="icon-clock"
+								url="../../pages/users/emp.html"> <img
+									src="../img/user.png" width="64" height="64"></img><br/>支部书记管理</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--导航end-->
+	</div>
+	<div data-options="region:'center',border:false"
+		style="width:95%;overflow:auto;height:580px;">
+		<div class="easyui-tabs" id="maintabs"
+			data-options="fit:true,border:false">
+			<div title="未开始活动" style="padding:0px;overflow:auto;"
+				iconCls="icon-go_home">
+				<div>
+					<iframe src="../../pages/lecture/newLecture.html" width="99%"
+						height="580px"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="win" class="easyui-window" title="修改密码" style="width:600px;height:280px"   
+        data-options="iconCls:'icon-save',modal:true,collapsible:false,minimizable:false,maximizable:false">   
+	    <div class="easyui-layout" data-options="fit:true">   
+	        <div data-options="region:'center'" > 
+	        	<div style="width:400px;height:150px;margin-left: 150px;">
+	        		  原密码：<input type="password" id="oldPwd" name="contractName" 
+								style="width:200px;margin-top:20px;"
+								class="form_txtbox_input easyui-validatebox"
+								validtype="length[0,10]" invalidMessage="长度不能超过10"/>
+								<span style="color:red;display:none">密码不正确!</span>
+								<br>
+					  新密码：<input type="password" id="newPwd" name="contractName" 
+								style="width:200px;margin-top:20px;"
+								class="form_txtbox_input easyui-validatebox"
+								validtype="length[0,10]" invalidMessage="长度不能超过10"/>
+								<span style="color:red;display:none">新密码不能为空!</span>
+								<span style="color:red;display:none">新密码必须与原密码不同!</span>
+								<br>
+					  确&emsp;认：<input type="passwords" id="confirmPwd" name="contractName" 
+								style="width:200px;margin-top:20px;"
+								class="form_txtbox_input easyui-validatebox"
+								validtype="length[0,10]" invalidMessage="长度不能超过10"/>
+								<span style="color:red;display:none">2次输入的密码不一致!</span>
+								<br>
+	        	</div>  
+	           <div  style="margin-top:10px;margin:0 auto;width:110px;margin-left:240px;">
+					<a class="easyui-linkbutton"
+							data-options="iconCls:'icon-ok'" href="javascript:void(0)"
+							onClick="modify()">确定修改</a>
+			</div>
+	        </div>   
+	    </div>   
+	</div>  
+
+	
+</body>
+</html>
+<script type="text/javascript">
+	var isRight = false;
+	$(function(){
+		$('#win').window('close');
+		var user = getUserInfo();
+		if(user == undefined){
+			window.location.href = "http://"+window.location.host+"/party/login.html";
+		}else{
+			$("#nameMsg").html(user.realname + "，您好！");
+			$("#xxwh").hide();
+		}
+		$("#oldPwd").blur(function(){
+			var user = getUserInfo();
+			if($("#oldPwd").val() != user.pwd){
+				isRight = false;
+				$("#oldPwd").next().show();
+			}else{
+				isRight = true;
+				$("#oldPwd").next().hide();
+			}
+		});
+		$("#newPwd").blur(function(){
+			if($("#newPwd").val().trim() == ""){
+				isRight = false;
+				$("#newPwd").next().show();
+			}else{
+				$("#newPwd").next().hide();
+				if($("#newPwd").val() == $("#oldPwd").val()){
+					isRight = false;
+					$("#newPwd").next().next().show();
+				}else{
+					isRight = true;
+					$("#newPwd").next().next().hide();
+				}
+			}
+		});
+		$("#confirmPwd").blur(function(){
+			if($("#newPwd").val().trim() != ""){
+				if($("#confirmPwd").val() != $("#newPwd").val()){
+					isRight = false;
+					$("#confirmPwd").next().show();
+				}else{
+					isRight = true;
+					$("#confirmPwd").next().hide();
+				}
+			}
+		});
+	});
+	function logout(){
+		$.ajax({
+			url:"http://"+window.location.host+"/party/index/logout.do",
+	   		type:"post",
+	   		dataType:"json",
+	   		async:false,
+	   		success:function(result){
+   				window.location.href = "http://"+window.location.host+"/party/login.html";
+	   		},error:function(){
+	   			
+	   		}
+		});
+	}
+	function chahgePwd(){
+		$('#win').window('open');
+	}
+	function modify(){
+		var user = getUserInfo();
+		if(!isRight){
+			$.messager.alert("警告","您检查输入！");  
+			return;
+		}else{
+			$.ajax({
+				url:"http://"+window.location.host+"/party/index/modify.do",
+		   		type:"post",
+		   		dataType:"json",
+		   		data:{
+		   			"username":user.username,
+		   			"pwd":$("#newPwd").val(),
+		   			"type":user.type,
+		   			"id":user.id,
+		   		},
+		   		async:false,
+		   		success:function(result){
+	   				window.location.href = "http://"+window.location.host+"/party/login.html";
+		   		},error:function(){
+		   			
+		   		}
+			});
+		}
+	}
+	function  goto(opt){
+		var v_title=$(opt).attr("title");
+		var v_url=$(opt).attr("url");
+		var v_iconCls=$(opt).attr("iconCls");
+		addTab($("#maintabs"),{title:v_title,href:v_url,iconCls:v_iconCls});
+
+	}
+	function addTab(opt, val) {
+			var tt = opt;
+			var title = val.title;
+			var v_iconCls=val.iconCls;
+			var href = val.href;
+			if (tt.tabs("exists", title)){
+				tt.tabs("select", title);
+			}else{
+				if (href) {
+					var content = "<iframe scrolling=\"yes\" frameborder=\"0\"  src=\"" + href + "\" style=\"width:100%;height:100%;padding:0px;\"></iframe>";
+				} else {
+				    
+					var content =val.content?val.content:"\u672a\u5b9e\u73b0";
+				} 
+				var v_closable=(val.closable==undefined)?true:val.closable;
+				tt.tabs("add", {title:title,closable:v_closable,content:content,iconCls:v_iconCls}); 
+			}
+		}
+</script>

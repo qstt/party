@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.yanxue.dao.UserDao">
+	<select id="check" resultType="com.yanxue.entity.Users">
+		select * from users where username = #{0} and pwd = #{1} and role = #{2} and isdel = '0' 
+	</select>
+	<update id="changePwd" parameterType="com.yanxue.entity.Users">
+		update users set pwd = #{pwd} where username =#{username} and isdel = '0'
+	</update>
+	<select id="get" resultType="com.yanxue.entity.Users">
+		select * from users where id= #{0} and isdel = '0'
+	</select>
+	<select id="getAll" resultType="com.yanxue.entity.Users">
+		select username,realname from users where isdel = '0' and role = '2'
+	</select>
+	<select id="getAllList" resultType="com.yanxue.entity.Users">
+		select * from users where isdel = '0'
+	</select>
+	<select id="count" resultType="int">
+		select count(0) from users where isdel = '0' and role = '2'
+	</select>
+	<update id="resetPwd">
+		update users set pwd = #{1} where username =#{0}
+	</update>
+	<update id="del">
+		update users set isdel ='1' where username =#{0}
+	</update>
+	<insert id="add" parameterType="com.yanxue.entity.Users">
+		insert into users(username,realname,pwd,tel,sex,role,isdel) 
+			values (#{username},#{realname},#{pwd},#{tel},#{sex},'2','0')
+	</insert>
+	<update id="update" parameterType="com.yanxue.entity.Users">
+		update users set realname =#{realname},tel =#{tel},sex=#{sex} where username =#{username}
+	</update>
+    
+    <select id="checkExists" resultType="com.yanxue.entity.Users">
+        select * from users where username = #{0}
+    </select>
+</mapper>

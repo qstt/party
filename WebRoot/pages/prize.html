@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>单人抽奖</title>
+	<link rel="stylesheet" type="text/css" href="../lib/style/style.css">
+</head>
+<body>
+	<div class="bg">
+		<img src="../lib/style/bg.jpg">
+	</div>
+	<div class="box">
+		<div class="jz">
+			<span class="name">姓名</span><br />
+			<span class="phone">电话</span><br />
+			<!-- <span class="major">专业班级</span><br /> -->
+			<input type="hidden" class="stuId">
+			<div class="start" id="btntxt" onclick="start()">开始</div>
+		</div>
+		<!-- <div class="zjmd">
+			<p class="p1">中奖者名单</p>
+			<div class="list" id="content">
+				<div class="zjmd_bt_xy"></div>
+				<div class="dajmd"><h1></h1></div>
+				<div class="zjmd_bt_dj"></div>
+			</div>
+			<div class="clear"></div>
+			
+		</div> -->
+		<!-- 文件保存格式 value="" -->
+		<input type="text" name="filename" id="filename" value="中奖名单.txt" style="display:none;" />
+		<!-- .csv后缀 -->
+	</div>
+	<div class="confirmbox">
+		<div class="zj_top">
+			<img src="../lib/style/zj_top.png" alt="">
+		</div>
+		<div class="lucknum">
+				
+		</div>
+		<div class="conbox">
+			
+		</div>
+		<div class="clear"></div>
+		<div class="btnbox" style="position: relative;bottom: -120px;z-index:9999">
+			<div class="start new_s daj" id="btnqr" onclick="">确认</div>
+			<div class="start new_s 22stop" id="btnqx" onclick="" style="background:#FC6666;">取消</div>
+		</div>
+		<div class="zj_bottom" style="position: relative;bottom: -80px;">
+			<img src="../lib/style/zj_bottom.png" alt="">
+		</div>
+	</div>
+	<script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="../lib/style/cj.js"></script>
+	<script type="text/javascript" src="../lib/style/blob.js"></script>
+	<script type="text/javascript" src="../lib/style/filesaver.js"></script>
+	<script>
+     $(function(){
+         $.ajax({             
+	    	type: "POST",
+	        url: "http://"+window.location.host+"/party/student/getAll.do",   
+	        dataType:"json",  
+	        async:false,    
+	        data: {
+	        	"lecId":lecId
+	        },         
+	        error: function () {              
+				
+	        }, 
+	        success: function (rs) {
+	        	console.log(rs); 
+	        	var list = rs.rows;
+	        	for(i in list){
+	        		xinm.push(list[i].name);
+	        		var ph = list[i].phone.substring(0,3) + "****" + list[i].phone.substring(7,11)
+	        		phone.push(ph);
+	        		idArray.push(list[i].id);
+	        		major.push(list[i].major);
+	        	}
+	        	console.log(list);
+	        	console.log(major);
+	        	console.log(phone);
+	        	pcount = xinm.length;
+	        	pdnum = xinm.length;
+	        	
+	        }
+	     });
+     });
+var lecId = getQueryString("lecId");
+
+var xinm = new Array();
+var phone = new Array();
+var major = new Array();
+var idArray = new Array();
+
+var nametxt = $('.name');
+var phonetxt = $('.phone');
+//var majortxt = $('.major');
+
+var stuId = $(".stuId");
+var pcount = 0;//参加人数
+var num = 0; //随机数存储
+var runing = true;  
+var to = 0;//从0开始
+var t;//循环调用
+var lucknum = 0;
+var pdnum = 0;//参加人数判断是否抽取完
+var zhongjiang = 0;
+//大奖开始停止
+function start() {
+	if(zhongjiang == pdnum){
+		//alert(zjnum.length+","+pdnum)
+		alert('无法抽奖');
+	}else{
+		if (runing) {
+			runing = false;
+			$('#btntxt').removeClass('start').addClass('stop');
+			$('#btntxt').html('停止');
+			startNum();
+		} else {
+			runing = true;
+			$('#btntxt').removeClass('stop').addClass('start');
+			$('#btntxt').html('抽奖');
+			stop();
+	        bzd();//中奖函数
+	        $('#btnqx').css('display','block');
+	        $('.lucknum').css('display','none');
+	    }
+	}
+}
+
+//循环参加名单
+function startNum() {
+	pcount = xinm.length;
+	num = Math.floor(Math.random() * pcount);
+	nametxt.html(xinm[num]);
+	phonetxt.html(phone[num]);
+	//majortxt.html(major[num]);
+	stuId.val(idArray[num]);
+	t = setTimeout(startNum, 0);
+}
+//停止跳动
+function stop() {
+	clearInterval(t);
+	t = 0;
+	return pcount;
+}
+//打印中奖名单
+function bzd() {
+	pcount = xinm.length;
+	
+	//打印中奖者名单
+	$('.conbox').prepend("<p style='width:80%;font-size:58px;line-height:68px;padding:30px;text-align: center;color:#FF2525;'>"+xinm[num]+"<br>"+phone[num]+"<br>"+major[num]+"<input type='hidden' value='"+ idArray[num] +"'></p>");
+	$('.confirmbox').show();
+	//将已中奖者从数组中"删除",防止二次中奖
+	var xinmNew = [];
+	var phoneNew = [];
+	var idArrayNew = [];
+	var majorNew = [];
+	
+	xinm.splice(num, 1);
+	phone.splice(num, 1);
+	idArray.splice(num, 1);
+	major.splice(num, 1);
+	return pcount;
+}
+//弹出中奖如在场则确认
+$('#btnqr').on('click',function(){
+
+	//var cp = $('.conbox').find('p').removeAttr('style').clone();
+	//$('.zjmd_bt_xy').find('p').eq(0).css({'margin-top':'10px','border-top':'1px solid #FF2525'});
+	//$('.zjmd_bt_xy').prepend(cp);
+	var stuid = $($('.conbox').find('input')).val();
+	$('.conbox').empty();
+	$('.confirmbox').hide();
+	//中奖名单排序
+	/* $('.list').find('p').each(function(i){
+		$(this).find('span').remove();
+	}); */
+	$.ajax({             
+    	type: "POST",
+        url: "http://"+window.location.host+"/party/student/addAward.do",   
+        dataType:"json",  
+        async:false,    
+        data: {
+        	"lecId":lecId,
+        	"stuId":stuid
+        },         
+        error: function (){              
+			
+        }, 
+        success: function (rs) {
+        }
+	 }); 
+})
+
+//如中奖者不在则取消
+$('#btnqx').on('click',function(){
+	$('.conbox').empty();
+	$('.confirmbox').hide();
+})
+    function getQueryString(name) {
+	    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+	    var r = window.location.search.substr(1).match(reg);
+	    if (r != null) {
+	        return unescape(decodeURI(r[2]));
+	    }
+	    return null;
+	}  
+	</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我的活动</title>
+		<link rel="stylesheet" type="text/css" href="../css/list_style.css" />
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<script type="text/javascript" src="../js/user.js"></script>
+		<script type="text/javascript" src="../js/dateFmt.js"></script>
+	</head>
+	<body>
+		<div class="newsCenterPanel">
+			<div class="title">
+				<a href="#" target="_self">我的活动</a>
+			</div>
+			<div class="newsCenterPanel_inner" id="content"> 
+				
+			</div>
+		</div>
+		<script type="text/javascript">
+			var user;
+			$(function(){
+				user = getUserInfo();
+				$.ajax({             
+			    	type: "POST",
+			        url: "http://"+window.location.host+"/party/lecture/getAll.do",   
+			        dataType:"json",  
+			        async:false,    
+			        data: {
+			        	"role":"2",
+			        	"username":user.username
+			        },         
+			        error: function () {              
+						
+			        }, 
+			        success: function (data) { 
+			            var list = data.rows;
+			            var str = "";
+			            for(i in list){
+			            	var day = getSmpFormatDateByLong(list[i].time).split("-")[2];
+			            	var month =  getSmpFormatDateByLong(list[i].time).split("-")[1];
+			            	var year =  getSmpFormatDateByLong(list[i].time).split("-")[0];
+			            	var j = i % 2;
+			            	if(j == 1){
+				            	str += '<div class="newContentBox odd">';
+			            	}else{
+				            	str += '<div class="newContentBox even">';
+			            	}
+							str += '	<a hidefocus="true" href="homePage.html?id='+ list[i].id  +'">';
+							str += '		<div class="time">';
+							str += '			<p class="day">'+ day +'</p>';
+							str += '			<p class="ym">'+ year + '-' + month +'</p>';
+							str += '		</div>';
+							str += '		<div class="newTitle">'+ list[i].name +'</div>';
+							str += '		<div class="border"></div>';
+							str += '		<div class="newContent">'+ list[i].address +'</div>';
+							str += '	</a>';
+							str += '</div>';
+			            }
+			            $("#content").html(str);
+			        } 
+			    }); 
+			});
+		</script>
+	</body>
+</html>

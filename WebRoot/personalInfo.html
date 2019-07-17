@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>研学教育</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+    <link rel="stylesheet" href="https://yanxuejiaoyu.oss-cn-hangzhou.aliyuncs.com/weui.css">
+
+    <style>
+        .infoDiv{
+            width: 80%;
+            margin-left: 10%;
+            height: 40px;
+            border: 1px solid #00a4ff;
+            margin-top: 20px;
+            border-radius:5px;
+        }
+        .infoDiv2{
+            width: 80%;
+            margin-left: 5%;
+            height: 40px;
+            margin-top: 20px
+        }
+        .RadioStyle{
+			 width: 60%;
+		     float:left;
+		}
+        #container p{
+            width: 20%;
+            height: 40px;
+            line-height: 40px;
+            margin-left: 20px;
+            color: #666;
+            float: left
+        }
+        .infoDiv input{
+            width: 60%;
+            height: 40px;
+            font-size: 18px;
+        }
+.wrap{
+	position: fixed;
+	z-index:9999;
+	width: 46px;
+	height: 46px;
+	right:20px;
+	margin-top:10px;
+	margin-left:260px;
+	background: #fff;
+	border-radius: 50%;
+	overflow: hidden;
+}
+#submit {
+    cursor: pointer;
+}
+.box{
+	position: absolute;
+	top:7px;
+	left:7px;
+	width: 34px;
+	height: 34px;
+	line-height: 17px;
+	font-size: 12px;
+	color:#333;		
+	text-align: center;
+	z-index: 4;
+	background: #fff;
+	border-radius: 50%;
+}
+.top,.bottom{
+	position: absolute;
+	top:0;
+	left:0;	
+	width: 42px;
+	height: 42px;
+	border: 2px solid #129aee;
+	border-radius: 50%;
+}
+.top{
+	z-index: 1;
+	clip:rect(0px,46px,23px,0px);
+	-webkit-clip:rect(0px,46px,23px,0px);
+}
+.bottom{
+	z-index: 2;
+	clip:rect(23px,46px,46px,0px);
+	-webkit-clip:rect(23px,46px,46px,0px);
+}
+.mask{
+	position: absolute;
+	top:0;
+	left:0;
+	width:46px;
+	height: 46px;
+	z-index: 3;
+	display: none;
+	background: #fff;
+	clip:rect(23px,46px,46px,0px);
+	-webkit-clip:rect(23px,46px,46px,0px);
+}
+
+    </style>
+</head>
+<body ontouchstart="">
+	<div style="width:100%;height:100%;position:fixed;margin:0" id="ad">
+		<div class="wrap" id="timer">
+			<div class="box">跳过广告</div>
+			<div class="top" id="top"></div>
+			<div class="bottom" id="bottom"></div>
+			<div class="mask" id="mask"></div>	
+		</div>
+		<img src="https://yanxuejiaoyu.oss-cn-hangzhou.aliyuncs.com/ad1.png" width="100%" height="100%">
+	</div>
+	<div id="info_content" style="display:none">
+	    <div style="width: 100%;font-size: 30px;margin-top: 30px;text-align: center">信息填报</div>
+	    <div id="container">
+	        <div class="infoDiv">
+	            <p>姓名:</p>
+	            <div>
+	                <input type="text" class="weui-input" style="" id="name">
+	            </div>
+	        </div>
+	        <div class="infoDiv">
+	            <p>手机:</p>
+	            <div>
+	                <input type="text" class="weui-input" id="phone">
+	            </div>
+	        </div>
+	        <div class="infoDiv">
+	            <p>宿舍:</p>
+	            <div>
+	                <input type="text" class="weui-input" id="academy">
+	            </div>
+	        </div>
+	        <div class="infoDiv">
+	            <p>QQ:</p>
+	            <div>
+	                <input type="text" class="weui-input" id="qq">
+	            </div>
+	        </div>
+	         <div class="infoDiv">
+	            <p style="width:30%;">专业和班级:</p>
+	            <div>
+	                <input type="text" class="weui-input" id="major">
+	            </div>
+	        </div>
+	       <!--  <div class="infoDiv2">
+	           <div style="width:30%;float:left;margin-left:10%;color: #666;">
+		           		意愿报名:
+	        	</div>
+	             <div class="radio">
+				    <input id="radio-1" name="role" type="radio" value="1" checked>
+				    <label for="radio-1" class="radio-label">是</label>
+				  </div>
+				  <div class="radio">
+				    <input id="radio-2" name="role" type="radio" value="0">
+				    <label  for="radio-2" class="radio-label">否</label>
+				  </div>
+	        </div> -->
+			<div class="infoDiv3" style="width: 90%;margin-left: 5%;margin-top: 40px">
+				<div style="margin-left:10%;color: #666;">
+					想了解或想获得的帮助(辅导):
+				</div>
+				<div class="weui-cells weui-cells_checkbox">
+					<label class="weui-cell weui-check__label" for="s11">
+						<div class="weui-cell__hd">
+							<input type="checkbox" class="weui-check" name="checkbox1" id="s11">
+							<i class="weui-icon-checked"></i>
+						</div>
+						<div class="weui-cell__bd">早起鸟名校计划</div>
+					</label>
+					<label class="weui-cell weui-check__label" for="s12">
+						<div class="weui-cell__hd">
+							<input type="checkbox" class="weui-check" name="checkbox1" id="s12">
+							<i class="weui-icon-checked"></i>
+						</div>
+						<div class="weui-cell__bd">全科名师精英小班</div>
+					</label>
+					<label class="weui-cell weui-check__label" for="s13">
+						<div class="weui-cell__hd">
+							<input type="checkbox" class="weui-check" name="checkbox1" id="s13">
+							<i class="weui-icon-checked"></i>
+						</div>
+						<div class="weui-cell__bd">寒暑假魔鬼集训营</div>
+					</label>
+					<label class="weui-cell weui-check__label" for="s14">
+						<div class="weui-cell__hd">
+							<input type="checkbox" class="weui-check" name="checkbox1" id="s14">
+							<i class="weui-icon-checked"></i>
+						</div>
+						<div class="weui-cell__bd">英语\数学\政治\专业课单科加强</div>
+					</label>
+				</div>
+
+			</div>
+	        <!--<div class="infoDiv2" style="height: 150px">-->
+	        	<!--<div style="width:30%;float:left;margin-left:10%;color: #666;">-->
+		           		<!--想了解或想获得的帮助(辅导):-->
+	        	<!--</div>-->
+	            <!--<div class="RadioStyle">-->
+			        <!--<input type="checkbox" id="love1" value="早起鸟名校计划"/>-->
+			        <!--<label for="love1">早起鸟名校计划</label>-->
+			        <!--<input type="checkbox" id="love2" value="全科名师精英小班"/>-->
+			        <!--<label for="love2">全科名师精英小班</label><br>-->
+			        <!--<input type="checkbox" id="love3" value="寒暑假魔鬼集训营"/>-->
+			        <!--<label for="love3">寒暑假魔鬼集训营</label>-->
+			        <!--<input type="checkbox" id="love4" value="英语\数学\政治\专业课单科加强"/>-->
+			        <!--<label for="love4">英语\数学\政治\专业课单科加强</label>-->
+			    <!--</div>-->
+	        <!--</div>-->
+	    </div>
+	    <div style="height:80px">
+    		<a   href="javascript:submitBtnClick()" class="weui-btn weui-btn_primary" style="width: 80%;height: 50px;margin-top: 40px;border-radius: 25px;line-height: 50px;color: white;font-size: 20px;cursor:pointer">确认提交</a>
+	    </div>
+<!-- 		<input type="button" value = "测试" ontouch="submitBtnClick()"onclick="submitBtnClick()" style="width: 80%;height: 50px;margin-top: 50px;border-radius: 25px;line-height: 50px;color: white;font-size: 20px"> 
+	 -->
+	 </div>
+</body>
+<script type="text/javascript" src="https://yanxuejiaoyu.oss-cn-hangzhou.aliyuncs.com/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+	var lecId = getQueryString("lecId");
+	var time = 3000;//2秒转完	
+	var bottom = document.getElementById('bottom');
+	var mask = document.getElementById('mask');
+	var btn = document.getElementsByTagName('button')[0];
+	var deg = 0;
+	var num = 0;//只转一次
+	$(function(){
+		$("#ad").show();
+		$("#info_content").hide();
+		rotating();
+	});
+	$("#timer").click(function(){
+		$("#timer").hide();
+		$("#ad").hide();
+		$("#info_content").show();
+	});
+	function rotating(){
+		var top = document.getElementById('top');
+		setTimeout(function(){
+			deg++;
+			if(deg == 180){
+				top.style.display = 'none';
+				mask.style.display = 'block';
+			}
+			if(deg == 361){
+				$("#timer").hide();
+				$("#ad").hide();
+				$("#info_content").show();
+				return;
+			}else{
+				setTimeout(rotating(),time/360)
+			}
+			bottom.style.transform = "rotate(" +deg+ "deg)";
+			bottom.style.WebkitTransform = "rotate(" +deg+ "deg)";
+		}, time/360);
+	}
+	function getQueryString(name) {
+	    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+	    var r = window.location.search.substr(1).match(reg);
+	    if (r != null) {
+	        return unescape(decodeURI(r[2]));
+	    }
+	    return null;
+	}
+	$("#submit").click(function(){
+			
+	});
+    function submitBtnClick() {
+    	var student = {};
+		student.name = $("#name").val();        
+		student.phone = $("#phone").val();        
+		student.academy = $("#academy").val();        
+		student.major = $("#major").val();        
+		student.qq = $("#qq").val();        
+		//student.intention = $('input:radio:checked').val(); 
+		student.lecture_id = lecId;	
+		student.lession = "";
+        $('input:checkbox:checked').each(function(e){
+            student.lession +=  $(this).parent().parent().children(".weui-cell__bd").html().trim() + ",";
+            // alert(student.lession)
+        });
+		// $('input:checkbox:checked').each(function(e){
+		// 	student.lession +=  $(this).val() + ",";
+		// });
+		student.lession = student.lession.substring(0,student.lession.length - 1);
+		if(student.name.trim() == ""){
+			alert("姓名必输");
+			return;
+		}
+		if(student.phone.trim() == ""){
+			alert("手机号必输");
+			return;
+		}
+		var reg = /^1[3|4|5|7|8][0-9]{9}$/; //验证规则
+		if(!reg.test(student.phone)){
+			alert("手机号码有误");
+			return;
+		}
+		if(student.academy.trim() == ""){
+			alert("宿舍必输");
+			return;
+		}
+		if(student.major.trim() == ""){
+			alert("专业必输");
+			return;
+		}
+		if(student.lession.trim() == ""){
+			student.intention = "0";
+		}else{
+			student.intention = "1";
+		}
+		console.log(student);
+		$.ajax({             
+	    	type: "POST",
+	        url: "http://"+window.location.host+"/party/student/add.do",   
+	        dataType:"json",  
+	        async:false,    
+	        data:student,
+	        error: function(){              
+				
+	        }, 
+	        success: function (data) {
+	        	if(data.status == "1"){
+	        		alert("填报成功");
+	        	}else if(data.status == "2"){
+	        		alert("重复填报！");
+	        	}else{
+	        		alert("服务异常！");
+	        	}
+	        }
+        });
+    }
+    function test(){
+    	
+    }
+</script>
+</html>

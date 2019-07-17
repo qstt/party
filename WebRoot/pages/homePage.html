@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>扫码</title>
+    <link rel="stylesheet" href="../lib/weui-1.2.1/css/weui.css">
+    <link rel="stylesheet" href="../lib/weui-1.2.1/css/jquery-weui.css">
+    <link rel="stylesheet" href="../lib/weui-1.2.1/css/swiper.css">
+    <link rel="stylesheet" href="../lib/weui-1.2.1/css/weuipublic.css">
+    <!--<link rel="stylesheet" href="../css/iconfont/iconfont.css">-->
+    <style type="text/css">
+        .bulletin{
+            height: 400px;
+            width: 350px;
+            margin-right: 15%;
+            margin-top: 100px;
+            float: right;
+            border: 1px solid #ccc;
+        }
+        .bulletin .title{
+            width: 100%;
+            border-bottom: 1px solid #ccc;
+            height: 35px;
+        }
+        .bulletin b{
+            font-size: 16px;
+            border-top:2px solid #63B8FF;
+            padding:5px 10px;
+            display:inline-block;
+        }
+        #moreBtn{
+            float: right;
+            font-size: 14px;
+            line-height: 35px;
+            color: rgb(170, 170, 170);
+            text-decoration: none;
+        }
+        .bulletin a:hover{
+            color: #63B8FF;
+        }
+        .list_lh{
+        /*height: 365px;*/
+            height: 365px;
+            width: 100%;
+            overflow:hidden;
+        }
+        .list_lh ul{
+            padding-left: 0px;
+            list-style:none;
+        }
+        .lieven{
+            background-color: #eee;
+        }
+        .list_lh li p{
+            padding-left: 10px;
+            height:30px;
+            line-height:30px;
+            margin: 0;
+            overflow: hidden;
+        }
+        .list_lh li p a{
+            float:left;
+            text-decoration:none;
+            color: #333;
+            font-size: 14px;
+        }
+        .list_lh li p a:hover{
+            color: #63B8FF;
+        }
+        .list_overflow{
+            overflow-y:scroll;
+        }
+    </style>
+
+</head>
+<body>
+<div style="width:100%;height:100%;">
+    <div style="margin-left: 15%;margin-top: 100px;width: 400px;height: 400px;float: left;">
+        <div style="width:400px; height:400px"  id="qrcode"></div>
+    </div>
+
+    <div class="bulletin">
+        <div class="title"><b>参与扫描学生</b></div>
+        <div class="list_lh list_overflow">
+            <ul id="stu_list">
+            </ul>
+        </div>
+
+        <a id="drawBtn" onclick="startAct()" href="javascript:;" class="weui-btn weui-btn_primary" style="background-color: #0098FF;width: 90%;height: 60px;margin-top: 30px;border-radius: 30px;line-height: 60px;color: white;font-size: 20px">暂停二维码使用</a>
+    </div>
+</div>
+<script type="text/javascript" src="../lib/weui-1.2.1/js/jquery-2.1.4.js"></script>
+<script type="text/javascript" src='../js/qrcode.js'></script>
+<script type="text/javascript" src='../js/scroll.js'></script>
+<script type="text/javascript" src='../js/color.js'></script>
+<script type="text/javascript">
+
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+		width : 400,
+		height : 400
+	});
+	function getQueryString(name) {
+	    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+	    var r = window.location.search.substr(1).match(reg);
+	    if (r != null) {
+	        return unescape(decodeURI(r[2]));
+	    }
+	    return null;
+	}
+
+	function getActivity(){
+	    var Lecture = undefined;
+	    var activityType = undefined;
+	    $.ajax({
+	        url:"http://"+window.location.host+"/party/lecture/getActivity.do",
+	        type:"post",
+	        dataType:"json",
+	        async:false,
+	        data:{
+                "id":id
+            },
+	        success:function(result){
+	            activityType = result.activity;
+	        },error:function(){
+	            
+	        }
+	    });
+	    return activityType;
+	}
+	
+	
+	var id = getQueryString("id");
+	var time = new Date();
+	var activity;
+	var url;
+    $(function(){
+    	activity = getActivity(id);
+    	if ("1" == activity){
+    		url = "http://"+window.location.host+"/party/speak.html?lecId="+id;
+    	} else {
+    		url = "http://"+window.location.host+"/party/check.html?lecId="+id;
+    	}
+		qrcode.makeCode(url);
+       // $("div.list_lh").myScroll({
+        //    speed:50, //数值越大，速度越慢
+        //    rowHeight:30 //li的高度
+       // });
+
+        $('li:even').addClass('lieven');
+
+        $('ul li a').myLink({
+            'color': '#111',
+            'fontSize': '13px'
+        });
+        
+        var j = 0;
+        $(function(){
+            if ("1" == activity){
+                url = "http://"+window.location.host+"/party/speak/getSpeakData_1.do";
+            } else {
+                url = "http://"+window.location.host+"/party/check/getCheckData_1.do";
+            }
+           $.ajax({             
+               type: "POST",
+               url: url,
+               dataType:"json",  
+               async:false,    
+               data:{
+                   "lecid":id,
+                   "time":time
+               },
+               error: function(){              
+                   
+               }, 
+               success: function (rs) {
+                   time = new Date();
+                   var list = rs.data;
+                   var str = "";
+                   for(i in list){
+                       var student_number = list[i].student_number;
+                       var name = list[i].name
+                       var k = ++ j;
+                       str += '<li><p>'+ k + ". " + student_number +'&emsp;'+ name +'</p></li>';
+                   }
+                   $("#stu_list").append(str);
+               }
+           }); 
+       });
+        setInterval(function(){//定时器定时从后台获取增量数据
+        	 if ("1" == activity){
+                 url = "http://"+window.location.host+"/party/speak/getSpeakData.do";
+             } else {
+                 url = "http://"+window.location.host+"/party/check/getCheckData.do";
+             }
+        	$.ajax({             
+		    	type: "POST",
+		        url: url,
+		        dataType:"json",  
+		        async:false,    
+		        data:{
+		        	"lecid":id,
+		        	"time":time
+		        },
+		        error: function(){              
+					
+		        }, 
+		        success: function (rs) {
+		        	time = new Date();
+		        	var list = rs.data;
+		        	var str = "";
+		        	for(i in list){
+		        		var student_number = list[i].student_number;
+		        		var name = list[i].name
+		        		var k = ++ j;
+		        		str += '<li><p>'+ k + ". " + student_number +'&emsp;'+ name +'</p></li>';
+	        		}
+	        		$("#stu_list").append(str);
+		        }
+	        });	
+        }, 5000);
+    });
+    function startAct() {
+        $.ajax({             
+	    	type: "POST",
+	        url: "http://"+window.location.host+"/party/lecture/start.do",   
+	        dataType:"json",  
+	        async:false,    
+	        data:{
+	        	"id":id
+	        },
+	        error: function(){              
+				
+	        }, 
+	        success: function (rs) {
+	        	if(rs.status == "1"){
+	        		//window.location.href = "http://"+window.location.host+"/party/pages/prize.html?lecId="+id;
+	        		alert("二维码已失效");
+	        	}
+	        }
+		 });
+    }
+</script>
+
+</body>
+</html>

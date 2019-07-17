@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   <title>USTC-软设3班党支部</title>
+    <link rel="stylesheet" href="./css/login.css">
+    <style type="text/css">
+.radio {
+  float:left;
+  width:140px;
+  height:40px;
+}
+.radio input[type="radio"] {
+  position: absolute;
+  width:100px;
+  opacity: 0;
+}
+.radio input[type="radio"] + .radio-label:before {
+  content: '';
+  background: #f4f4f4;
+  border-radius: 100%;
+  border: 1px solid #b4b4b4;
+  display: inline-block;
+  width: 1.4em;
+  height: 1.4em;
+  position: relative;
+  top: -0.2em;
+  margin-right: 1em;
+  vertical-align: top;
+  cursor: pointer;
+  text-align: center;
+  -webkit-transition: all 250ms ease;
+  transition: all 250ms ease;
+}
+.radio input[type="radio"]:checked + .radio-label:before {
+  background-color: #3197EE;
+  box-shadow: inset 0 0 0 4px #f4f4f4;
+}
+.radio input[type="radio"]:focus + .radio-label:before {
+  outline: none;
+  border-color: #3197EE;
+}
+.radio input[type="radio"]:disabled + .radio-label:before {
+  box-shadow: inset 0 0 0 4px #f4f4f4;
+  border-color: #b4b4b4;
+  background: #b4b4b4;
+}
+.radio input[type="radio"] + .radio-label:empty:before {
+  margin-right: 0;
+}
+    </style>
+</head>
+<body>
+<div class="login">
+    <div class="login_title">
+        <p>USTC-软设3班党支部</p>
+    </div>
+    <div class="login_main">
+        <div class="main_left"></div>
+        <div class="main_right">
+            <div class="right_title">用户登录</div>
+            <form action="">
+                <div class="username">
+                    <img src="./img/username.png" alt="">
+                    <input type="text" id="username" placeholder="请输入用户名">
+                </div>
+                <div class="password">
+                    <img src="./img/password.png" alt="">
+                    <input id="pwd" type="password" placeholder="请输入密码">
+                </div>
+                <div id="role"  style="margin-left:50px;height:40px;">
+                	 <div class="radio">
+					    <input id="radio-1" name="role" type="radio" value="1" checked>
+					    <label for="radio-1" class="radio-label">超级管理员</label>
+					  </div>
+					  <div class="radio">
+					    <input id="radio-2" name="role" type="radio" value="2">
+					    <label  for="radio-2" class="radio-label">党员</label>
+					  </div>
+                </div>
+                <div class="yes_login" style="margin-top:20px">
+                	<a href="javascript:void(0)" onclick="login()">登&nbsp;&nbsp;&nbsp;&nbsp;录</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="login_footer">
+        <p>建议浏览器:Chrome</p>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript">
+
+function login(){
+	var username = $("#username").val();
+	var pwd = $("#pwd").val();
+	var role = $('input:radio:checked').val();  
+	if(username.trim() == "" || pwd.trim() == ""){
+		alert("用户名或密码为空！");
+	}else{
+		$.ajax({
+			url:"http://"+window.location.host+"/party/index/login.do",
+	   		type:"post",
+	   		data:{
+	   			"username":username,
+	   			"pwd":pwd,
+	   			"role":role
+	   		},
+	   		dataType:"json",
+	   		success:function(result){
+	   			if(result.status == 0){
+	   				alert("用户名或密码错误！！！");
+	   			}else{
+	   				if(role == "1"){
+		   				window.location.href = "http://"+window.location.host+"/party/kuangjia/main/sysmain.html";
+	   				}else{
+		   				window.location.href = "http://"+window.location.host+"/party/pages/myLecture.html";
+	   				}
+	   			}
+	   		},error:function(){
+	   			
+	   		}
+		});
+	}
+}
+</script>
+</body>
+</html>

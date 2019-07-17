@@ -1,0 +1,179 @@
+@charset "utf-8";
+
+/*树状分层*/
+.resgl_bmlist{ width:200px; height:100%; padding:5px 10px 10px 10px; border:1px solid #04958e; border-top-width:2px; background-color:#fff; margin-right:0px; overflow:auto;}
+  .resgl_bmlist a{ display:block; height:20px; line-height:20px;}
+  .resgl_bmlist .tree-node{ font-size:12px; line-height:20px; height:20px;}
+  .resgl_bmlist .child{ padding-left:15px;}
+  .resgl_bmlist .tree_nozk{ background:url(../images/res_manage01.gif) no-repeat 3px -62px; text-indent:20px; font-size:12px;}
+  .resgl_bmlist .tree_kyzk{ background:url(../images/res_manage01.gif) no-repeat left 6px; text-indent:20px;}
+  .resgl_bmlist .tree_yjzk{ background:url(../images/res_manage01.gif) no-repeat left -28px; text-indent:20px;}
+  .resgl_bmlist .child{ display:block;}
+  .resgl_bmlist li.firstlv{ border-bottom:1px dotted #ccc; padding:5px 0; margin-bottom:5px;}
+
+/*平台资源-树状*/
+.zytakerate{ position:absolute; width:500px; height:28px; right:0; top:20px; font-weight:bold;}
+  .zytakerate li{ float:left; margin-right:5px;}
+  .zytakerate li.lawn{ color:#4eaf00;}
+  .zytakerate li.midd{ color:#DB00DB;}
+  .zytakerate li.high{ color:#F00;}
+  .zytakerate li span{ margin:0 5px; padding:0 5px; cursor:default;}
+  .zytakerate li.lawn span{ background-color:#4eaf00;}
+  .zytakerate li.midd span{ background-color:#DB00DB;}
+  .zytakerate li.high span{ background-color:#F00;}
+
+.ptresources_tree{ padding:0;}
+  .ptresources_tree ul{ border:1px solid #ccc; background-color:#f6f6f6; overflow:hidden; box-shadow:0px 1px 3px #ddd;}
+  .ptresources_tree ul.onmouse{ border:1px solid #FF8000;}
+  .ptresources_tree li{ padding:4px 15px; float:left; text-align:center; min-height:24px; font-size:12px; vertical-align:middle; cursor:default;}
+  .ptresources_tree li p{ line-height:24px;}
+  .ptresources_tree li.state{ width:34px; padding:4px 0; background:url(../images/ptresources_tree01.gif) no-repeat 9px center #dfdfdf;}
+  .ptresources_tree li.showd{ background-position:-46px center;}
+  .ptresources_tree li.singl{ background-position:-101px center;}
+  .ptresources_tree li.unit{ background-color:#fff;}
+  .ptresources_tree li.room{ background-color:#fbfbfb; border-left:1px solid #ccc; border-right:1px solid #ccc;}
+  .ptresources_tree li.perc{}
+    .ptresources_tree li.perc cite{ font-style:normal; color:#4eaf00;}
+	.ptresources_tree li.perc span{ background-color:#4eaf00; margin-left:5px; padding:0 5px; cursor:default;}
+	.ptresources_tree li.perc cite.midd{ color:#DB00DB;}
+	.ptresources_tree li.perc cite.midd span{ background-color:#DB00DB;}
+	.ptresources_tree li.perc cite.high{ color:#F00;}
+	.ptresources_tree li.perc cite.high span{ background-color:#F00;}
+  .ptresources_tree p{ margin:0;}
+  
+  .ptresources_tree dl{ background:url(../images/ptresources_tree02.gif) repeat-y; display:none;}
+  .ptresources_tree dl.showon{}
+  .ptresources_tree ol{ padding-left:35px; background:url(../images/ptresources_tree03.gif) no-repeat left -3px; padding-top:10px;}
+  .ptresources_tree ol.last{ padding-left:35px; background:url(../images/ptresources_tree04.gif) no-repeat left -3px;}
+
+/*左侧（如：会议拓扑页）*/
+.hytuop_lef{ width:200px; padding:5px 0 15px 5px; border:1px solid #04958e; border-right:none; border-top-width:2px; background-color:#f2fcfc; overflow:auto;}
+.hytuop_rig{ padding:10px; border:1px solid #04958e; border-top-width:2px; background-color:#fff;}
+.hytuop_lef .hydanwei{ background-color:#04958e; color:#fff; line-height:18px; text-align:center; padding:5px; margin-bottom:5px;}
+
+/*会议轮询*/
+.lxhyroom_lef{ border:1px solid #257c7b; min-height:400px;}
+  .lxhyroom_lef h1{ display:block; background-color:#257c7b; text-align:center; padding:5px 0; font-size:12px; color:#fff; position:relative;}
+  .lxhyroom_lef h1 span{ display:block; position:absolute; width:60px; height:20px; background-color:#d0f8f8; top:7px; right:6px; color:#257c7b; text-align:center; line-height:19px; font-weight:normal; cursor:pointer;}
+  .lxhyroom_lef h1 span:active{ top:7px; right:5px;}
+  .lxhyroom_lef h1 b{ display:block; float:left; margin-left:8px;}
+  .lxhyroom_lef ul{ padding:5px 10px; height:365px; overflow-y:auto;}
+  .lxhyroom_lef li{ background-color:#E4F1F1; border:1px solid #E4F1F1; padding:5px; margin-bottom:5px; cursor:default; line-height:20px; position:relative; /*禁止内容选中→*/-webkit-user-select:none;-moz-user-select:none;}
+  .lxhyroom_lef li.selected{ background-color:#FFF7EE; border:1px solid #F90;}
+  .lxhyroom_lef li s{ display:none;}
+.lxhyroom_rig{ border:1px solid #509F00; background-color:#EFD; min-height:400px; position:relative;}
+  .lxhyroom_rig .jgtime{ padding:2px 6px 3px 6px; padding:4px 6px 5px 6px\0; border-bottom:1px dashed #468C00;}
+  .lxhyroom_rig ul{ padding:5px 10px; height:365px; overflow-y:auto;}
+  .lxhyroom_rig li{ background-color:#509F00; border:1px solid #509F00; color:#FFF; padding:5px; margin-bottom:5px; cursor:default; line-height:20px; position:relative; /*禁止内容选中→*/-webkit-user-select:none;-moz-user-select:none;}
+  .lxhyroom_rig li.selected{ background-color:#F90; border:1px solid #F90;}
+  .lxhyroom_rig li s{ text-decoration:none; display:block; cursor:pointer; position:absolute; top:4px; background:url(../images/confe_ensure_roundrobin.gif) no-repeat left -72px; width:23px; height:22px; display:none;}
+  .lxhyroom_rig li s.up{ right:32px; background-position:left -96px;}
+  .lxhyroom_rig li s.down{ right:5px;}
+  .lxhyroom_rig li.selected s{ display:block;}
+  .lxhyroom_rig li.selected s.up:active{ top:2px;}
+  .lxhyroom_rig li.selected s.down:active{ top:6px;}
+  .lxhyroom_rig dl{ position:absolute; width:32px; height:32px; left:-20px; background:url(../images/confe_ensure_roundrobin.gif) no-repeat left top; cursor:pointer;}
+  .lxhyroom_rig dl.leftmove{ top:230px;}
+  .lxhyroom_rig dl.righmove{ top:130px; background-position:left -34px;}
+  .lxhyroom_rig dl.leftmove:active{ left:-22px;}
+  .lxhyroom_rig dl.righmove:active{ left:-18px;}
+
+/*树状图分级（MCU、终端）*/
+.Mcutree{ width:900px; margin:0 auto;}
+  .Mcutree h1,.Mcutree h2,.Mcutree h3,.Mcutree li{ font-family:"微软雅黑"; display:block;}
+  .Mcutree h1{font-size:24px; line-height:40px; color:#f05500; height:50px; background:url(../images/mcu_tree_pic.png) no-repeat left top; padding-left:60px; margin-bottom:12px;}
+  .Mcutree ul{ padding:12px 0 0 60px; margin-bottom:12px; border-top:2px dotted #ccc;}
+  .Mcutree h2{ font-size:20px; line-height:42px; color:#017b7f; height:50px; background:url(../images/mcu_tree_pic.png) no-repeat 60px -78px; border-top:2px dotted #ccc; padding:12px 0 0 120px; margin-bottom:12px;}
+  .Mcutree h3{ font-size:20px; line-height:42px; color:#017b7f; height:50px; background:url(../images/mcu_tree_pic.png) no-repeat left top; padding-left:60px;}
+  .Mcutree li{ dfont-size:18px; line-height:48px; height:50px; background:url(../images/mcu_tree_pic.png) no-repeat left -86px; padding-left:60px; margin:0 0 12px 60px; font-size:16px;}
+  
+/*平台资源（tree-table）*/
+.PopuptableTree dl{ display:block;}
+.PopuptableTree table{ margin-bottom:-1px;}
+.PopuptableTree td,.PopuptableTree th{ padding:3px 5px; vertical-align:middle;}
+  .PopuptableTree td.handle{ text-align:left;}
+  .PopuptableTree td.handle ul{ width:180px; margin:0 auto;}
+  .PopuptableTree .wid01{ width:600px;}
+  .PopuptableTree .wid02{ width:350px;}
+  .PopuptableTree .wid02 ul{ padding-bottom:4px; position:relative; min-height:28px;}
+  .PopuptableTree .wid02 li{ position:relative; padding:1px 0; margin:0;}
+  .PopuptableTree select{ width:320px; padding:2px 2px 2px 20px; margin:0;}
+  .PopuptableTree .wid02 s,.PopuptableTree .wid02 em{ display:block; font-style:normal; position:absolute; text-decoration:none; cursor:pointer; z-index:999;}
+  .PopuptableTree .wid02 em{ width:20px; height:20px; background:url(../images/syslist_icon.gif) no-repeat 0 -56px; right:0; bottom:6px;}
+  .PopuptableTree .wid02 s{ width:20px; height:20px; background:url(../images/syslist_icon.gif) no-repeat 0 -114px; left:4px; top:7px;}
+  .PopuptableTree input[type=text]{ margin-top:-2px; margin-top:-3px\0; padding:2px; outline:none;}
+  .PopuptableTree input[type=text]:focus{ border:2px solid #F93; padding:2px;}
+  .PopuptableTree span{ background:url(../images/ptresources_tree01.gif) no-repeat 6px center #effed8; padding:5px 10px 5px 11px; border:1px solid #659025; margin-right:5px; cursor:pointer;}
+  .PopuptableTree span.Treeico_show{ background-position:6px center;}
+  .PopuptableTree span.Treeico_hide{ background-position:-49px center;}
+  .PopuptableTree span.Treeico_no{ background-position:-104px center; border:1px solid #9eaeae; background-color:#effcfc;}
+.rstree_a .wid01{ width:600px;}
+.rstree_aa .wid01{ width:566px; padding-left:39px;}
+.rstree_aaa .wid01{ width:532px; padding-left:73px;}
+.rstree_aaaa .wid01{ width:498px; padding-left:107px;}
+.rstree_aaaaa .wid01{ width:465px; padding-left:140px;}
+.rstree_a .wid01 input[type=text]{ width:500px;}
+.rstree_aa .wid01 input[type=text]{ width:466px;}
+.rstree_aaa .wid01 input[type=text]{ width:432px;}
+.rstree_aaaa .wid01 input[type=text]{ width:398px;}
+.rstree_aaaaa .wid01 input[type=text]{ width:365px;}
+.rstree_a td{ background-color:#FFFFC0;}
+.rstree_aa td{ background-color:#E3FFD0;}
+.rstree_aaa td{ background-color:#F3F3F3;}
+.rstree_aaaa td{ background-color:#FFF;}
+
+/*平台资源查询*/
+.PtzySearch{ margin-bottom:0; position:relative;}
+  .PtzySearch dl{ width:420px; margin:0 auto;}
+  .PtzySearch input[type=checkbox]{ margin-top:0; margin-top:-2px\9;}
+  #resour_show,#resour_hide{ right:10px; top:18px; top:16px\9;}
+  
+.meetingrous{}
+  .meetingrous .hd{ position:relative;}
+  .meetingrous .hd ul li{font-family:'Arial';}
+  .meetingrous .hd ul li.on{ background-color:#fff; border-bottom:2px solid #fff;}
+  .meetingrous h1{ position:absolute; width:500px; right:0; top:0; text-align:right; font-size:12px; color:#008780;}
+
+#PlaResousCont .hytuop_lef,#PlaResousCont .hytuop_rig{ border-top-width:1px;}  
+.PlaResoList{ position:relative;}
+  .PlaResoList dl{ width:250px; float:left; border:1px solid #ccc; background-color:#fff; font-size:12px; position:relative; padding:5px; margin:0 10px 15px 10px; *margin:0 7px 10px 7px; box-shadow:0 0 5px #ccc; cursor:pointer;}
+  .PlaResoList ol{ width:246px; position:absolute; height:2px; border:1px solid #ccc; font-size:0; line-height:0; bottom:-4px; left:50%; margin-left:-123px;}
+  .PlaResoList dt,.PlaResoList dd{ display:block; position:absolute;}
+  .PlaResoList dt{ width:36px; height:36px; right:-1px; top:-1px; background:url(../images/plaresoucs01.gif) no-repeat 0 0;}
+    .PlaResoList dt.high{ background-position:0 0;}
+    .PlaResoList dt.midd{ background-position:0 -38px;}
+    .PlaResoList dt.lowd{ background-position:0 -76px;}
+  .PlaResoList dd{ width:80px; height:50px; right:7px; bottom:7px; background:url(../images/shapepics/shape01.png) no-repeat center center;}
+    .PlaResoList dd.shape01{ background:url(../images/shapepics/shape01.png) no-repeat center center;}
+    .PlaResoList dd.shape02{ background:url(../images/shapepics/shape02.png) no-repeat center center;}
+    .PlaResoList dd.shape03{ background:url(../images/shapepics/shape03.png) no-repeat center center;}
+    .PlaResoList dd.shape04{ background:url(../images/shapepics/shape04.png) no-repeat center center;}
+    .PlaResoList dd.shape05{ height:60px; background:url(../images/shapepics/shape05.png) no-repeat center center;}
+	.PlaResoList dd.term_on{ height:60px; background:url(../images/shapepics/terminal_online_ico.png) no-repeat 15px center;}
+	.PlaResoList dd.term_off{ height:60px; background:url(../images/shapepics/terminal_offline_ico.png) no-repeat 15px center;}
+	.PlaResoList dd.mcu{ height:60px; background:url(../images/shapepics/mcu_ico.png) no-repeat 15px center;}
+	.PlaResoList dd.mcutil{ height:60px; background:url(../images/shapepics/mcutil_ico.png) no-repeat 15px center; font-family:"微软雅黑"; font-size:20px; line-height:70px; overflow:hidden; text-align:center; text-indent:15px;}
+	.PlaResoList dd.mcutil b.high{ color:#df0000;}
+	.PlaResoList dd.mcutil b.midd{ color:#fc9516;}
+	.PlaResoList dd.mcutil b.lown{ color:#339b00;}
+  .PlaResoList cite,.PlaResoList span{ float:left; display:block;}
+  .PlaResoList cite{ font-style:normal; text-align:right; width:80px; margin-right:5px; background:url(../images/alertwin_bg1.gif) no-repeat 7px -34px; color:#00827c;}
+  .PlaResoList li{ clear:both; height:26px; line-height:26px;}
+  .PlaResoList li.white{ background-color:#F3F3F3;}
+  .PlaResoList dl.muson{ left:1px; top:1px;}
+  .PlaResoList dl.theon{ border-color:#ff8500; box-shadow:0 0 5px #ffc67a;}
+  .PlaResoList dl.theon ol{ border-color:#ff8500;}
+  .PlaResoList dl.theon li.white{ background-color:#fdf1e3;}
+  .PlaResoList .terminal{ border:2px solid #ff8500; background-color:#fff8ef; clear:both; padding-top:10px; position:absolute; display:none; width:825px; left:280px; top:0;}
+  .PlaResoList .terminal dl{ cursor:default; margin:0 0 15px 10px;}
+  .PlaResoList .terminal em{ position:absolute; right:-34px; top:-2px; background-color:#ff8500; font-style:normal; color:#fff; cursor:pointer; padding:2px 5px; line-height:20px;}
+  /*不同分辨率效果*/
+  .PlaResoList_nocur dl{cursor:default;}
+  .PlaResoList_1366{ margin-left:-5px;}
+  .PlaResoList_1366 dl{ width:240px; margin:0 6px 15px 6px;}
+  .PlaResoList_1366 .terminal{ left:265px; width:795px;}
+  .PlaResoList_1280{ margin-left:-5px;}
+  .PlaResoList_1280 dl{ width:300px; margin:0 6px 15px 6px;}
+  .PlaResoList_1280 .terminal{ left:325px; width:625px;}
+  .PlaResoList_1280 .terminal dl{ width:280px; margin:0 5px 15px 10px;}
+  .PlaResoList_1024 .terminal{ left:300px; width:286px;}

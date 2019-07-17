@@ -1,0 +1,36 @@
+/* CSS Document */
+.searchtable{
+	font-size: 12px;
+	width:100%;
+	 border:solid 2px #E0ECFF;
+ 
+}
+.searchtable tr{
+margin:0px;
+border:0px;
+}
+.searchtable td{
+ border:solid 1px #E0ECFF;
+height:40px;	 
+}
+
+.tooltable{
+width:100%;
+
+font-size: 12px;
+}
+
+.showtable{
+font-size: 12px;
+	width:100%;
+}
+
+.showtable th{
+	font-size:12px;
+	height:40px;
+	font-weight: bold;
+	clear: none;
+	float: none;
+	text-align: right;
+	vertical-align: middle;
+}

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>未结束活动</title>
+    <link rel="stylesheet" type="text/css" href="../../js/jq_easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/jq_easyui/themes/icon.css">
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jq_easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../js/jq_easyui/easyui-lang-zh_CN.js"></script>
+    <!-- 引入 echarts.js -->
+	<script type="text/javascript" src="../../js/datagrid-detailview.js"></script>
+	<script type="text/javascript" src="../../js/user.js"></script>
+	<script type="text/javascript" src="../../js/dateFmt.js"></script>
+    <style type="text/css">
+    .footer {
+        width: 100%;
+        height: 80px;
+        text-align: center;
+        line-height: 35px;
+        background-color: #d8e4fe;
+    }
+    
+    .top-bg {
+        background-color: #d8e4fe;
+        height: 80px;
+    }
+    .datagrid-row-detail .datagrid-header{
+    	position:absolute;
+    	visibility:hidden;
+    }
+    </style>
+</head>
+
+	<body style="padding-top: 0; margin:0px;padding-bottom: 0;">
+	    <!-- 数据展示 -->
+	    <div id="divSearch" style="margin:0px; text-align:left;margin: 0px;">
+	        <div class="easyui-panel" title="数据展示" data-options="fit:true">
+	        </div>
+	    </div>
+	    <div style="margin-top:10px;margin-bottom:10px;background-color:#fff;font-size:12px;">
+	    	<table class="search_table">
+	                <tr>
+	                	<td id="add"><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" style="padding: 0; color: blue;margin-left:20px" onclick="add();">添加活动</a></td>
+	                </tr>
+	         </table>
+	    </div>
+	    <div id="div_grid" style="margin: 0px;padding: 0px;">
+	        <table id="dg" title="" class="easyui-datagrid" style="width: 90%;margin-left:10px;
+					    height: auto;" pagination="true" rownumbers="true" singleselect="true">
+		       <thead>
+	                <tr >
+	                	<th field="name" width="300" align="center">
+	                       		活动名称
+	                    </th>
+	                    <th field="professor" width="120" align="center">
+	                       		党员
+	                    </th>
+	                    <th field="address" width="210" align="center">
+	                       		地点
+	                    </th>
+	                    <th field="activity" width="300" align="center">
+                                                                           活动类型
+                        </th>
+	                    <th field="time" width="100" align="center"
+	                     	formatter="getSmpFormatDateByLong">
+	                        	日期
+	                    </th>
+	                    <th field="cz" width="150" align="center"
+	                    	formatter="cz">
+	                        	操作
+	                    </th>
+	                </tr>
+	            </thead>
+		    </table>
+	    </div>
+	    <div id="addLecture" class="easyui-window" title="添加活动" style="width:600px;height:480px"   
+        data-options="iconCls:'icon-save',modal:true,collapsible:false,minimizable:false,maximizable:false">   
+	    <div class="easyui-layout" data-options="fit:true">   
+	        <div data-options="region:'center'" > 
+	        	<div style="width:400px;height:150px;margin-left: 150px;">
+	        		<div style="height:20px;"></div>
+	        		  活动名称：<input type="text" id="in_name" class="easyui-textbox"
+								style="width:200px;margin-top:20px;"/>
+								<br><br>
+	        		  地&emsp;&emsp;点：<input type="text" id="in_address" 
+								style="width:200px;margin-top:20px;"
+								class="easyui-textbox"/>
+								<br><br>
+				          活动类型：<input type="checkbox" id="activity_type">发言（默认签到）</input>
+                                <br><br>
+					  时&emsp;&emsp;间：<input type="text" id="in_time" 
+								style="width:200px;margin-top:20px;"
+								class="easyui-datebox" required="required"/>
+								<br><br>
+					  支部书记：<input id="in_professor"  class="easyui-combobox" style="width:200px;height:24px;">
+						 	<br><br>
+	        	</div>  
+	           <div  style="width:110px;position: absolute;bottom: 10px;left: 250px; ">
+					<a class="easyui-linkbutton"
+							data-options="iconCls:'icon-ok'" href="javascript:void(0)"
+							onClick="addLecture()">确定添加</a>
+			</div>
+	        </div>   
+	    </div>   
+	</div>
+	<div id="editLecture" class="easyui-window" title="修改讲座" style="width:600px;height:480px"   
+        data-options="iconCls:'icon-save',modal:true,collapsible:false,minimizable:false,maximizable:false">   
+	    <div class="easyui-layout" data-options="fit:true">   
+	        <div data-options="region:'center'" > 
+	        	<div style="width:400px;height:150px;margin-left: 150px;">
+	        		<div style="height:20px;"></div>
+	        		  活动名称：<input type="text" id="edit_name" class="easyui-textbox"
+								style="width:200px;margin-top:20px;"/>
+								<br><br>
+	        		  地&emsp;&emsp;点：<input type="text" id="edit_address" 
+								style="width:200px;margin-top:20px;"
+								class="easyui-textbox"/>
+								<br><br>
+					 活动类型：<input type="checkbox" id="edit_activity">发言（默认签到）</input>
+                                <br><br>
+					  时&emsp;&emsp;间：<input type="text" id="edit_time" 
+								style="width:200px;margin-top:20px;"
+								class="easyui-datebox" required="required"/>
+								<br><br>
+					  党员：<input id="edit_professor"  class="easyui-combobox" style="width:200px;height:24px;">
+						 	<br><br>
+						 	<input type="hidden" id="edit_id">
+	        	</div>  
+	           <div  style="width:110px;position: absolute;bottom: 10px;left: 250px; ">
+					<a class="easyui-linkbutton"
+							data-options="iconCls:'icon-ok'" href="javascript:void(0)"
+							onClick="editLecture()">确定修改</a>
+			</div>
+	        </div>   
+	    </div>   
+	</div>
+	<div id="contract_form_container" style="height:100%;display:none;">
+            <div style="height:100%;">
+                <table id="dg_mx" >
+                </table>
+            </div>
+        </div>
+	<script type="text/javascript">
+		var user;
+		$(function(){
+			$('#addLecture').window('close');
+			$('#editLecture').window('close');
+			user = getUserInfo(); 
+			$("#add").show();
+			var username = user.username;
+			var role = user.role;
+			var p = $('#dg').datagrid('getPager');
+	        $(p).pagination({
+	             pageSize: 10, //每页显示的记录条数，默认为10 
+	             pageList: [10, 20, 30,40,50], //可以设置每页记录条数的列表 
+	             onSelectPage: function (pageNumber, pageSize) {
+		            loadData(role,pageNumber, pageSize);
+		            $('#dg').datagrid('reload'); //重新加载表格
+		         }
+	         });
+	         loadData(role,1, 10);
+		});
+		function loadData(role,page,pageSize){
+			$.ajax({             
+		    	type: "POST",
+		        url: "http://"+window.location.host+"/party/lecture/getAll.do",   
+		        dataType:"json",      
+		        data: {
+		        	"page":page,
+		        	"pageSize":pageSize,
+		        	"role":role
+		        },         
+		        error: function () {              
+					
+		        }, 
+		        success: function (data) { 
+		            $('#dg').datagrid('loadData', data);
+		        } 
+		    }); 
+		}
+		/* function loadgrid(){
+			var customer = $("#customer").val();
+			var business = $("#business").val();
+			var type = $("#type").val();
+			var status = $("#customer").val();
+			var designer = $("#designer").val();
+			var username = user.username;
+			var role = user.role;
+			var p = $('#dg').datagrid('getPager');
+	        $(p).pagination({
+	             pageSize: 10, //每页显示的记录条数，默认为10 
+	             pageList: [10, 20, 30,40,50], //可以设置每页记录条数的列表 
+	             onSelectPage: function (pageNumber, pageSize) {
+		            loadDataByPrams(username,role,pageNumber, pageSize);
+		            $('#dg').datagrid('reload'); //重新加载表格
+		         }
+	        });
+		} */
+		function reset(){
+			location.reload();
+		}
+		function add(){
+			$('#addLecture').window('open');
+			$('#in_time').calendar({
+			    current:new Date()
+			});
+			$.ajax({             
+		    	type: "POST",
+		        url: "http://"+window.location.host+"/party/users/getAllUsername.do",   
+		        dataType:"json",      
+		        error: function () {              
+					
+		        }, 
+		        success: function (rs) { 
+		            $("#in_professor").combobox({
+                            data:rs.data,                        
+                            valueField: 'username',
+                            textField: 'realname'}
+                            ); 
+                    $("#in_professor").combobox({editable:false}); 
+		        } 
+		    }); 
+		}
+		function formatCheckBoxParam(param){
+		    if ($("#"+param).prop('checked')){
+		        return "1";
+		    } else {
+		        return "0";
+		    }
+		}
+		function addLecture(){
+			var lecture = {};
+			lecture.name = $("#in_name").val();
+			lecture.address = $("#in_address").val();
+			lecture.activity = formatCheckBoxParam("activity_type");
+			lecture.time = new Date($("#in_time").datebox('getValue'));
+			lecture.professor = $("#in_professor").combobox("getValue");
+			if(lecture.name == "" || lecture.professor == "" || $("#in_time").datebox('getValue') == ""){
+				$.messager.alert('提示','您有信息输入不完整！'); 
+			}
+			$.ajax({             
+		    	type: "POST",
+		        url: "http://"+window.location.host+"/party/lecture/add.do",   
+		        dataType:"json",   
+		        data:lecture,   
+		        error: function () {              
+					
+		        }, 
+		        success: function (rs) { 
+		            $.messager.alert('提示','添加成功！');
+					reset();
+		        } 
+		    }); 
+		}
+		function edit(id,target){
+			$('#editLecture').window('open');
+			var lecture = undefined;
+			$.ajax({
+				url:"http://"+window.location.host+"/party/lecture/getOne.do",
+				type:"post",
+				dataType:"json",
+				data:{"id":id},
+				async:false,
+				success:function(result){
+					lecture = result.data;
+					console.log(lecture);					
+				},
+				error:function(){
+					$.messager.alert('提示','编辑失败！');
+				}
+			});
+			$('#edit_time').calendar({
+			    current:new Date(lecture.time)
+			});
+			$.ajax({             
+			    	type: "POST",
+			        url: "http://"+window.location.host+"/party/users/getAllUsername.do",   
+			        dataType:"json",  
+			        async:false,     
+			        error: function () {              
+						
+			        }, 
+			        success: function (rs) { 
+			            $("#edit_professor").combobox({
+	                            data:rs.data,                        
+	                            valueField: 'username',
+	                            textField: 'realname'}
+	                            ); 
+	                    $("#edit_professor").combobox({editable:false});
+			        } 
+			    });
+			$("#edit_professor").combobox("select",lecture.professor);
+			$("#edit_time").datebox("setValue",getSmpFormatDateByLong(lecture.time));
+			$("#edit_name").textbox("setValue",lecture.name);
+			$("#edit_activity").prop("checked",lecture.activity);
+			$("#edit_address").textbox("setValue",lecture.address);
+			$("#edit_id").val(lecture.id);
+		}
+		function editLecture(){
+			var lecture = {};
+			lecture.id = $("#edit_id").val();
+			lecture.name = $("#edit_name").val();
+			lecture.address = $("#edit_address").val();
+			lecture.time = new Date($("#edit_time").datebox('getValue'));
+			lecture.professor = $("#edit_professor").combobox("getValue");
+			if(lecture.name == "" || lecture.professor == "" || $("#edit_time").datebox('getValue') == ""){
+				$.messager.alert('提示','您有信息输入不完整！'); 
+			}
+			$.ajax({             
+		    	type: "POST",
+		        url: "http://"+window.location.host+"/party/lecture/update.do",   
+		        dataType:"json",   
+		        data:lecture,   
+		        error: function () {              
+					
+		        }, 
+		        success: function (rs) { 
+		            $.messager.alert('提示','修改成功！');
+					reset();
+		        } 
+		    }); 
+		}
+		
+	      function del(id){
+	            var lecture = undefined;
+	            $.ajax({
+	                url:"http://"+window.location.host+"/party/lecture/del.do",
+	                type:"post",
+	                dataType:"json",
+	                data:{"id":id},
+	                async:false,
+	                success:function(result){
+	                	if(result.status == "1"){
+	                		location.reload();
+	                        alert("删除成功");
+	                    }
+	                },
+	                error:function(){
+	                    $.messager.alert('提示','删除失败！');
+	                }
+	            });
+	        }
+		
+		function cz(value,row,index){
+			var s = '<a href="javascript:;"  onclick = edit("'+row.id+'",this)>修改</a>&emsp;';
+			var c = '<a href="javascript:;" onclick = del("'+ row.id +'")>删除</a>&emsp;';
+			var s1 = '<a href="javascript:;"  onclick = attend("'+row.id+'")>签到/发言情况</a>&emsp;';
+			return c + s1;
+		}
+		
+		function attend(id){
+            loadStudent(id,"attend");
+        }
+		
+		function loadStudent(id,type){
+            var url = "";
+            if(type == "attend"){
+                url = "http://"+window.location.host+"/party/student/getAll.do";
+            }else if(type == "award"){
+                url = "http://"+window.location.host+"/party/student/getAllAward.do";
+            }else{
+                url = "http://"+window.location.host+"/party/student/getAllIntention.do";
+            }
+            $('#dg_mx').datagrid({
+                url:url,
+                queryParams:{"lecId":id},
+                singleSelect: true,
+                rownumbers: true,
+                resizable: false,
+                fixed: true,
+                nowrap: true,
+                striped: true, //条纹
+                width: 1000,
+                height: "auto",
+                showFooter:true,
+                pagination: true, //分页控件
+                pageNumber: 1,
+                pageSize: 10,
+                pageList: [10, 15, 20, 30, 40, 50],
+                columns: [
+                    [{
+                        field: 'activity',
+                        title: '活动',
+                        width: 150,
+                        align: 'center'
+                    },{
+                        field: 'number',
+                        title: '学号',
+                        width: 150,
+                        align: 'center'
+                    },{
+                        field: 'name',
+                        title: '姓名',
+                        width: 150,
+                        align: 'center'
+                    },{
+                        field: 'check',
+                        title: '签到情况',
+                        width: 150,
+                        align: 'center'
+                    },{
+                        field: 'speak',
+                        title: '发言情况',
+                        width: 150,
+                        align: 'center'
+                    }]],
+                    toolbar: [{
+                        id: 'btnadd',
+                        text: '导出数据',
+                        iconCls: 'timeebo_jy_download',
+                        handler: function() {
+                           window.open("http://"+window.location.host+"/party/student/download.do?lecId="+ id +"&type="+ type,"_blank");
+                        }
+                    }]
+              }).datagrid({loadFilter:pagerFilter});
+              $("#contract_form_container").css("display", "block");
+              $("#contract_form_container").window({
+                    title: "数据明细",
+                    width: 1040,
+                    height: 400,
+                    top: 20,
+                    collapsible: false,
+                    minimizable: false,
+                    maximizable: false,
+                    draggable: true,
+                    resizable: false,
+                    modal: true
+               });
+              $("#contract_form_container").window("hcenter");
+              $("#contract_form_container").window("open");
+        }
+		//分页
+	     function pagerFilter(data){
+	            if (typeof data.length == 'number' && typeof data.splice == 'function'){    // 判断数据是否是数组
+	                data = {
+	                    total: data.length,
+	                    rows: data
+	                }
+	            }
+	            var dg = $(this);
+	            var opts = dg.datagrid('options');
+	            var pager = dg.datagrid('getPager');
+	            pager.pagination({
+	                onSelectPage:function(pageNum, pageSize){
+	                    opts.pageNumber = pageNum;
+	                    opts.pageSize = pageSize;
+	                    pager.pagination('refresh',{
+	                        pageNumber:pageNum,
+	                        pageSize:pageSize
+	                    });
+	                    dg.datagrid('loadData',data);
+	                }
+	            });
+	            if (!data.originalRows){
+	                data.originalRows = (data.rows);
+	            }
+	            var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
+	            var end = start + parseInt(opts.pageSize);
+	            data.rows = (data.originalRows.slice(start, end));
+	            return data;
+	        }
+		
+	</script> 
+	</body>
+</html>

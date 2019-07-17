@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>USTC-软设3班党支部</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+    <link rel="stylesheet" href="https://yanxuejiaoyu.oss-cn-hangzhou.aliyuncs.com/weui.css">
+
+    <style>
+        .infoDiv{
+            width: 80%;
+            margin-left: 10%;
+            height: 40px;
+            border: 1px solid #00a4ff;
+            margin-top: 20px;
+            border-radius:5px;
+        }
+        .infoDiv2{
+            width: 80%;
+            margin-left: 5%;
+            height: 40px;
+            margin-top: 20px
+        }
+        .RadioStyle{
+			 width: 60%;
+		     float:left;
+		}
+        #container p{
+            width: 20%;
+            height: 40px;
+            line-height: 40px;
+            margin-left: 20px;
+            color: #666;
+            float: left
+        }
+        .infoDiv input{
+            width: 60%;
+            height: 40px;
+            font-size: 18px;
+        }
+.wrap{
+	position: fixed;
+	z-index:9999;
+	width: 46px;
+	height: 46px;
+	right:20px;
+	margin-top:10px;
+	margin-left:260px;
+	background: #fff;
+	border-radius: 50%;
+	overflow: hidden;
+}
+#submit {
+    cursor: pointer;
+}
+.box{
+	position: absolute;
+	top:7px;
+	left:7px;
+	width: 34px;
+	height: 34px;
+	line-height: 17px;
+	font-size: 12px;
+	color:#333;		
+	text-align: center;
+	z-index: 4;
+	background: #fff;
+	border-radius: 50%;
+}
+.top,.bottom{
+	position: absolute;
+	top:0;
+	left:0;	
+	width: 42px;
+	height: 42px;
+	border: 2px solid #129aee;
+	border-radius: 50%;
+}
+.top{
+	z-index: 1;
+	clip:rect(0px,46px,23px,0px);
+	-webkit-clip:rect(0px,46px,23px,0px);
+}
+.bottom{
+	z-index: 2;
+	clip:rect(23px,46px,46px,0px);
+	-webkit-clip:rect(23px,46px,46px,0px);
+}
+.mask{
+	position: absolute;
+	top:0;
+	left:0;
+	width:46px;
+	height: 46px;
+	z-index: 3;
+	display: none;
+	background: #fff;
+	clip:rect(23px,46px,46px,0px);
+	-webkit-clip:rect(23px,46px,46px,0px);
+}
+
+    </style>
+</head>
+<body ontouchstart="">
+	<div id="info_content" style="display:none">
+	    <div style="width: 100%;font-size: 30px;margin-top: 30px;text-align: center">签到信息</div>
+	    <div id="container">
+	        <div class="infoDiv">
+	            <p>学号:</p>
+	            <div>
+	                <input type="text" class="weui-input" style="" id="number">
+	            </div>
+	        </div>
+	        <div class="infoDiv">
+	            <p>姓名：</p>
+	            <div>
+	                <input type="text" class="weui-input" id="name">
+	            </div>
+	        </div>
+	    <div style="height:80px">
+    		<a href="javascript:submitBtnClick()" class="weui-btn weui-btn_primary" style="width: 80%;height: 50px;margin-top: 40px;border-radius: 25px;line-height: 50px;color: white;font-size: 20px;cursor:pointer">签到</a>
+	    </div>
+	 </div>
+</body>
+<script type="text/javascript" src="https://yanxuejiaoyu.oss-cn-hangzhou.aliyuncs.com/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+	var lecId = getQueryString("lecId");
+	var time = 30;//2秒转完	
+	var bottom = document.getElementById('bottom');
+	var mask = document.getElementById('mask');
+	var btn = document.getElementsByTagName('button')[0];
+	var deg = 0;
+	var num = 0;//只转一次
+	$(function(){
+		$("#ad").show();
+		$("#info_content").show();
+		rotating();
+	});
+	function getQueryString(name) {
+	    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+	    var r = window.location.search.substr(1).match(reg);
+	    if (r != null) {
+	        return unescape(decodeURI(r[2]));
+	    }
+	    return null;
+	}
+	$("#submit").click(function(){
+			
+	});
+    function submitBtnClick() {
+    	var check = {};
+    	check.student_number = $("#number").val();        
+    	check.name = $("#name").val();        
+    	check.lecture_id = lecId;	
+		if(check.student_number.trim() == ""){
+			alert("请输入学号");
+			return;
+		}
+		if(check.name.trim() == ""){
+			alert("请输入姓名");
+			return;
+		}
+		console.log(check);
+		$.ajax({             
+	    	type: "POST",
+	        url: "http://"+window.location.host+"/party/check/add.do",   
+	        dataType:"json",  
+	        async:false,    
+	        data:check,
+	        error: function(){              
+				
+	        }, 
+	        success: function (data) {
+	        	if(data.status == "1"){
+	        		alert("签到成功");
+	        	}else if(data.status == "32"){
+                    alert("请填写正确的学号");
+                }else if(data.status == "2"){
+	        		alert("重复签到");
+	        	}else if(data.status == "33"){
+                    alert("已更新签到信息");
+                }else if(data.status == "31"){
+                    alert("二维码已失效");
+                }else{
+	        		alert("服务异常！");
+	        	}
+	        }
+        });
+    }
+    function test(){
+    	
+    }
+</script>
+</html>

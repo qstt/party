@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.yanxue.dao.LectureDao">
+    <select id="findList" resultType="com.yanxue.entity.Lecture"
+        parameterType="map">
+        select * from tb_lecture where status ='0' order by time limit
+        #{page},#{pageSize}
+    </select>
+    <select id="count" resultType="int">
+        select count(0) from tb_lecture where status ='0'
+    </select>
+
+    <select id="getOldLecture"
+        resultType="com.yanxue.entity.Lecture" parameterType="map">
+        select * from tb_lecture where status ='1' limit #{page},#{pageSize}
+    </select>
+    <select id="getOldLectureCount" resultType="int">
+        select count(0) from tb_lecture where status ='1'
+    </select>
+    <select id="getNewLecture"
+        resultType="com.yanxue.entity.Lecture" parameterType="map">
+        select * from tb_lecture where status ='0' and professor = #{professor}
+    </select>
+    <select id="getLecture"
+        resultType="com.yanxue.entity.Lecture">
+        select * from tb_lecture where id =#{0}
+    </select>
+
+    <insert id="add" parameterType="com.yanxue.entity.Lecture">
+        insert into tb_lecture(id,name,professor,time,address,activity,create_time)
+        values (#{id},#{name},#{professor},#{time,jdbcType=DATE},#{address},#{activity},now())
+    </insert>
+    <update id="update" parameterType="com.yanxue.entity.Lecture">
+        update tb_lecture set name =#{name},professor =#{professor},
+        time=#{time,jdbcType=DATE},address=#{address} where id =#{id}
+    </update>
+    <update id="del">
+        update tb_lecture set status ='-1' where id =#{0}
+    </update>
+    
+    <update id="start">
+        update tb_lecture set status ='1' where id =#{0}
+    </update>
+    
+    <select id="getActivity"
+        resultType="com.yanxue.entity.Lecture">
+        select * from tb_lecture where id =#{0}
+    </select>
+</mapper>

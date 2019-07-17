@@ -1,0 +1,88 @@
+@charset "utf-8";
+/* CSS Document */
+body{ margin:0px auto; padding:0px;}
+
+#warpper{ width:100%; height:100%; position:absolute; top:0px; left:0px;}
+#warpper #hand{cursor:pointer;}
+
+#warpper #left{ width:100%; height:100% float:left;}
+#warpper #left #top{margin-top:0px;}
+#warpper #left #top #all_on{ margin-left:10px;}
+#warpper #left #top #all_off{ margin-left:40px;}
+
+#warpper #left #rkq_play{width:330px; border:1px solid #46A3FF;filter:alpha(opacity=30);background:#436D97;}
+#warpper #left #rkq_play #font_1{position:relative;}
+#warpper #left #rkq_play #video_1{ margin-top:230px;}
+#warpper #left #rkq_play #video_1 #play{ margin-left:690px;}
+#warpper #left #rkq_play #video_2{ margin-top:128px;}
+#warpper #left #rkq_play #video_2 #play{ margin-left:690px;}
+#warpper #left #rkq_play #video_3{ margin-top:126px;}
+#warpper #left #rkq_play #video_3 #play{ margin-left:690px;}
+
+#warpper #left #rkq_play2{width:164px; margin-right:20px;  border:1px solid #46A3FF;filter:alpha(opacity=30);background:#436D97;}
+#warpper #left #rkq_play2 #font_1{position:relative;}
+
+#warpper #left #rkq_play3{width:106px; margin-right:0px;  border:1px solid #46A3FF;filter:alpha(opacity=30);background:#436D97;}
+#warpper #left #rkq_play3 #font_1{position:relative;}
+
+#warpper #left #rkq_play4{border:0px solid #46A3FF;filter:alpha(opacity=50);background:#4A719C;}
+#warpper #left #rkq_play4 #font_1{position:relative;}
+
+#warpper #left #rkq_pb{ zoom:0.5; width:30%; position:absolute; top:236px;}
+#warpper #left #rkq_pb #pb{ position:relative; top:284px; left:944px;}
+
+#warpper #left #video_4{ zoom:0.5; position:relative; top:260px;}
+#warpper #left #video_4 #play{ margin-left:336px;}
+#warpper #left #video_4 #stop{ margin-left:160px;}
+
+#warpper #left #button{top:0px;}
+#warpper #left #button ul{margin-left:0px;}
+#warpper #left #button ul li{float:left; margin-left:0px; margin-right:4px;}
+#warpper #left #button ul li span{ float:left; height:auto; width:161px; margin-left:-4px;}
+
+#warpper #left #button2{margin-top:0px;}
+#warpper #left #button2 #ul1{ list-style:none; margin-left:0px;}
+#warpper #left #button2 #ul1 li{ float:left; margin-left:0px; margin-right:4px;}
+#warpper #left #button2 #ul2{ list-style:none; margin-left:0px; margin-top:0px;}
+#warpper #left #button2 #ul2 li{ float:left; margin-left:0px; margin-right:4px;}
+
+#warpper #right{ width:48%; height:100%; float:right;}
+
+#warpper #right #video_1{ zoom:0.5; margin-top:334px;}
+#warpper #right #video_1 #play{ margin-left:384px;}
+#warpper #right #video_1 #stop{ margin-left:160px;}
+
+#warpper #right #video_3{ zoom:0.5; margin-top:200px;}
+#warpper #right #video_3 #play{ margin-left:384px;}
+#warpper #right #video_3 #stop{ margin-left:160px;}
+
+#warpper #right #button1{ zoom:0.5; margin-top:120px;}
+#warpper #right #button1 ul{ list-style:none; margin-left:92px;}
+#warpper #right #button1 ul li{ float:left; margin-left:17px;}
+
+#warpper #right #video_2{ zoom:0.5; margin-top:204px;}
+#warpper #right #video_2 #play{ margin-left:384px;}
+#warpper #right #video_2 #stop{ margin-left:160px;}
+
+#warpper #right #button2{ zoom:0.5; margin-top:140px;}
+#warpper #right #button2 #ul1{ list-style:none; margin-left:-6px; height:147px;}
+#warpper #right #button2 #ul1 li{ float:left; margin-left:28px;}
+#warpper #right #button2 #ul2{ list-style:none; margin-left:102px; margin-top:10px;}
+#warpper #right #button2 #ul2 li{ float:left; margin-left:40px;}
+
+#warpper #right #kz{ zoom:0.5; margin-top:352px;}
+#warpper #right #kz #rkq{float:left; margin-left:90px;}
+#warpper #right #kz #jtq{float:left; margin-left:94px;}
+#warpper #right #kz #khq{float:left; margin-left:94px;}
+
+.font_head{margin-top:10px; font-size:23px;	color: #F2B100; font-weight:bold; position:relative;}
+.font_head2{margin-top:10px; font-size:16px; color: #FFFFFF; font-weight:bold; position:relative;}
+.font_body{margin-top:10px; font-size:16px;	color: #FFFFFF; font-weight:bold;}
+.font_info{font-size:12px;color:#FFFFFF;font-weight:bold;position:relative;}
+.table_left{padding-left:15px; padding-right:0px; padding-bottom:10px;}
+.table_center{text-align:center; padding-bottom:10px;}
+.right_bg{filter:alpha(opacity=70);background:#305172; }
+.right_div{padding-left: 20px; margin-bottom:8px;}
+.l_20{padding-left: 20px;}
+.rl_5{padding: 0px 5px 0px 5px;}
+.t_5{padding-top: 5px;}

@@ -1,0 +1,55 @@
+body, html {
+  height: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+.weui-bar{
+  position:fixed;z-index:10;
+  right:0;left:0;
+  height:44px;
+  text-align: center;
+  border-bottom:0;
+  background-color:#f7f7f7;
+  -webkit-box-shadow:0 0 1px rgba(0,0,0,.85);box-shadow:0 0 1px rgba(0,0,0,.85);
+  -webkit-backface-visibility:hidden;backface-visibility:hidden;
+}
+.weui-title{
+  /*right:40px;*/
+  /*left:40px;*/
+  display:inline-block;
+  overflow:hidden;
+  width:auto;
+  margin:0;
+  text-overflow:ellipsis;
+  text-align: center;
+  /*padding-top: 11px;*/
+}
+.weui-content{
+  /*background-color:#efeff4;*/
+  background-color: white;
+  -webkit-overflow-scrolling:touch;
+  padding-top: 44px;
+}
+
+
+footer {
+  text-align: center;
+  font-size: 14px;
+  padding: 20px;
+}
+
+footer a {
+  color: #999;
+  text-decoration: none;
+}
+
+a{text-decoration:none;}
+a:link{text-decoration:none; }  /* 指正常的未被访问过的链接*/
+a:visited{text-decoration:none; }/*指已经访问过的链接*/
+a:hover{text-decoration:none;}/*指鼠标在链接*/
+a:active{text-decoration:none;}/* 指正在点的链接*/
+
+.weui-tabbar{
+  position:absolute;
+  bottom:0;
+  width:100%;
+}
