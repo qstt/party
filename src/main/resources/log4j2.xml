@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration status="error">
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout pattern="%d{yyyy-MM-dd_HH:mm:ss,SSS} %-5level %class{36} %L %M - %m%n" />
+        </Console>
+        <RollingFile name="delivery_all_log" fileName="/home/smds/logs/job/delivery_job_all.log" filePattern="/home/smds/logs/job/$${date:yyyy-MM}/delivery_job_all-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="time:%d{yyyy-MM-dd_HH:mm:ss,SSS}    remote_addr:%X{ip}    thread:%t    class:%C{1}.%M    level:%p    line:%L    msg:%m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" />
+                <SizeBasedTriggeringPolicy size="20MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingFile>
+        <!-- DEBUGログの設定 -->
+        <RollingFile name="delivery_job_debug_log" fileName="/home/smds/logs/job/delivery_job_debug_log.log" filePattern="/home/smds/logs/job/$${date:yyyy-MM}/delivery_job_debug_log-%d{yyyy-MM-dd}-%i.log"
+            append="true">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL"/> 
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+            <PatternLayout pattern="time:%d{yyyy-MM-dd_HH:mm:ss,SSS}    remote_addr:%X{ip}    thread:%t    class:%C{1}.%M    level:%p    line:%L    msg:%m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="false" />
+                <SizeBasedTriggeringPolicy size="20MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingFile>
+        <!-- INFOログの設定 -->
+        <RollingFile name="delivery_job_info_log" fileName="/home/smds/logs/job/delivery_job_info_log.log" filePattern="/home/smds/logs/job/$${date:yyyy-MM}/delivery_job_info_log-%d{yyyy-MM-dd}-%i.log" append="true">
+            <Filters>
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/> 
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+            <PatternLayout pattern="time:%d{yyyy-MM-dd_HH:mm:ss,SSS}    remote_addr:%X{ip}    thread:%t    class:%C{1}.%M    level:%p    line:%L    msg:%m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="false" />
+                <SizeBasedTriggeringPolicy size="20MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingFile>
+        <!-- WARNログの設定 -->
+        <RollingFile name="delivery_job_warn_log" fileName="/home/smds/logs/job/delivery_job_warn_log.log" filePattern="/home/smds/logs/job/$${date:yyyy-MM}/delivery_job_warn_log-%d{yyyy-MM-dd}-%i.log" append="true">
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/> 
+                <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+            <PatternLayout pattern="time:%d{yyyy-MM-dd_HH:mm:ss,SSS}    remote_addr:%X{ip}    thread:%t    class:%C{1}.%M    level:%p    line:%L    msg:%m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="false" />
+                <SizeBasedTriggeringPolicy size="20MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingFile>
+        <!-- ERRORログの設定 -->
+        <RollingFile name="delivery_job_error_log" fileName="/home/smds/logs/job/delivery_job_error_log.log" filePattern="/home/smds/logs/job/$${date:yyyy-MM}/delivery_job_error_log-%d{yyyy-MM-dd}-%i.log"
+            append="true">
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+            <PatternLayout pattern="time:%d{yyyy-MM-dd_HH:mm:ss,SSS}    remote_addr:%X{ip}    thread:%t    class:%C{1}.%M    level:%p    line:%L    msg:%m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="false" />
+                <SizeBasedTriggeringPolicy size="20MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingFile>
+    </appenders>
+    <loggers>
+        <logger name="org.mybatis" level="INFO"></logger>
+        <root level="DEBUG">
+            <AppenderRef ref="delivery_job_error_log" />
+            <AppenderRef ref="delivery_job_warn_log" />
+            <AppenderRef ref="delivery_job_info_log" />
+            <AppenderRef ref="delivery_job_debug_log" />
+            <appender-ref ref="Console" />
+            <AppenderRef ref="delivery_all_log" />
+        </root>
+    </loggers>
+</configuration>
