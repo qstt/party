@@ -7,6 +7,8 @@
     <groupId>com.yanxue</groupId>
     <artifactId>party</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>party ${version}</name>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -156,11 +158,11 @@
             <version>${mysql-drive.version}</version>
         </dependency>
 
-        <!--<dependency>
+        <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
             <version>${mybatis.version}</version>
-        </dependency>-->
+        </dependency>
 
         <!--third party jar-->
         <dependency>
