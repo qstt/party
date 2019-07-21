@@ -38,10 +38,15 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("deprecation")
 public class ExcelUtils<T> {
-	 public static String NO_DEFINE = "no_define";//未定义的字段
+
+    private static final Logger logger = LoggerFactory.getLogger(ExcelUtils.class);
+
+    public static String NO_DEFINE = "no_define";//未定义的字段
 	    public static String DEFAULT_DATE_PATTERN="yyyy年MM月dd日";//默认日期格式
 	    public static int DEFAULT_COLOUMN_WIDTH = 17;
 	    /**
@@ -173,7 +178,7 @@ public class ExcelUtils<T> {
 	            workbook.write(out);
 	            workbook.close();
 	        } catch (IOException e) {
-	            e.printStackTrace();
+                logger.error("close excel export error ", e);
 	        }
 	    }
 	    /**
@@ -305,7 +310,7 @@ public class ExcelUtils<T> {
 	            workbook.close();
 	            workbook.dispose();
 	        } catch (IOException e) {
-	            e.printStackTrace();
+                logger.error("close excel 2007 export error ", e);
 	        }
 	    }
 	    //Web 导出excel
@@ -335,7 +340,7 @@ public class ExcelUtils<T> {
 	            outputStream.flush();
 	            outputStream.close();
 	        }catch (Exception e) {
-	            e.printStackTrace();
+                logger.error("download excel file error ", e);
 	        }
 	    }
 	    public static void main(String[] args) throws IOException {
