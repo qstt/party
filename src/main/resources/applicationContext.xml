@@ -19,61 +19,55 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+	<!--handlermapping-->
+	<mvc:annotation-driven />
+	<context:component-scan base-package="com.yanxue"></context:component-scan>
 	<!-- 加载jdbc.properties -->
-	<util:properties id="jdbc" 
-		location="classpath:jdbc.properties"/>
+	<util:properties id="jdbc" location="classpath:jdbc.properties"/>
 	<!-- 声明连接池 -->
-	<!-- <bean id="dataSource"
-		class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName" value="#{jdbc.driver}"/>
-		<property name="url" value="#{jdbc.url}"/>
-		<property name="username" value="#{jdbc.user}"/>
-		<property name="password" value="#{jdbc.password}"/>
-	</bean> -->
-	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
-        destroy-method="shutdown">
-        <property name="driverClassName" value="#{jdbc.driver}" />
-        <property name="jdbcUrl" value="#{jdbc.url}" />
-        <property name="username" value="#{jdbc.user}" />
-        <property name="password" value="#{jdbc.password}" />
-        <!-- 连接只读数据库时配置为true， 保证安全 -->
-        <property name="readOnly" value="false" />
-       <!--  等待连接池分配连接的最大时长（毫秒），超过这个时长还没可用的连接则发生SQLException， 缺省:30秒 -->
-        <property name="connectionTimeout" value="30000" />
-       <!--  一个连接idle状态的最大时长（毫秒），超时则被释放（retired），缺省:10分钟 -->
-        <property name="idleTimeout" value="600000" />
-      <!--   一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:30分钟，建议设置比数据库超时时长少30秒，参考MySQL  -->
-           <!--  wait_timeout参数（show variables like '%timeout%';） -->
-        <property name="maxLifetime" value="1800000" />
-        <!-- 连接池中允许的最大连接数。缺省值：10；推荐的公式：((core_count * 2) + effective_spindle_count) -->
-        <property name="maximumPoolSize" value="100" />
-        <property name="minimumIdle" value="10" />
-    </bean>
-	<!-- 配置session工厂 -->
-	<bean id="ssf"
-		  class="org.mybatis.spring.SqlSessionFactoryBean">
-		  <!-- 注入DataSource -->
-		  <property name="dataSource" ref="dataSource"></property>
-		  <property name="mapperLocations"
-		  			value="classpath:com/yanxue/dao/sql/LectureMapper.xml"></property>
-	
+	<!--	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+            <property name="password" value="#{jdbc.password}"/>
+            <property name="driverClassName" value="#{jdbc.driver}"/>
+            <property name="url" value="#{jdbc.url}"/>
+            <property name="username" value="#{jdbc.user}"/>
+    </bean>-->
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<property name="driverClassName" value="#{jdbc.driver}" />
+		<property name="jdbcUrl" value="#{jdbc.url}" />
+		<property name="username" value="#{jdbc.user}" />
+		<property name="password" value="#{jdbc.password}" />
+		<!-- 连接只读数据库时配置为true， 保证安全 -->
+		<property name="readOnly" value="false" />
+		<!--  等待连接池分配连接的最大时长（毫秒），超过这个时长还没可用的连接则发生SQLException， 缺省:30秒 -->
+		<property name="connectionTimeout" value="30000" />
+		<!--  一个连接idle状态的最大时长（毫秒），超时则被释放（retired），缺省:10分钟 -->
+		<property name="idleTimeout" value="600000" />
+		<!--   一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:30分钟，建议设置比数据库超时时长少30秒，参考MySQL  -->
+		<!--  wait_timeout参数（show variables like '%timeout%';） -->
+		<property name="maxLifetime" value="1800000" />
+		<!-- 连接池中允许的最大连接数。缺省值：10；推荐的公式：((core_count * 2) + effective_spindle_count) -->
+		<property name="maximumPoolSize" value="100" />
+		<property name="minimumIdle" value="10" />
 	</bean>
-	
+
+	<!-- 配置session工厂 -->
+	<bean id="ssf" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 注入DataSource -->
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="mapperLocations" value="classpath:mapper/*.xml"></property>
+	</bean>
+
 	<!-- 配置MapperScannerConfigurer -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name= "basePackage"
-				  value="com.yanxue.dao"></property>
+		<property name= "basePackage" value="com.yanxue.dao"></property>
 	</bean>
-	<context:component-scan base-package="com.yanxue"></context:component-scan>
-	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
- 		<property name="prefix" value="/WEB-INF/jsp/" />  
- 		<property name="suffix" value=".jsp" />  
-	</bean>  --> 
-	<!-- handlermapping -->
-	<mvc:annotation-driven />
-	
-	<bean id="multipartResolver"  
-        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+	<!--bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>-->
+
+	<!--文件上传-->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="UTF-8" />  
         <!-- 指定所上传文件的总大小不能超过10485760000B。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->  
         <property name="maxUploadSize" value="10485760000"></property>  
