@@ -28,7 +28,6 @@ buildNumber.properties
 *.iws
 
 # temp ignore
-.gz
 *.log
 *.cache
 *.diff
