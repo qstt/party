@@ -13,7 +13,25 @@ public class JsonResult implements Serializable{
 	private static final long serialVersionUID = 2441995750155209398L;
 	private Integer total;//总数量
 	private Object rows;//所有的数据
-	public Integer getTotal() {
+
+    public JsonResult(){
+
+    }
+
+    public JsonResult(Integer total, Object rows) {
+        constractResult(total, rows);
+    }
+
+    public JsonResult(Integer total) {
+        constractResult(total, null);
+    }
+
+    private void constractResult(Integer total, Object rows) {
+        this.setTotal(total);
+        this.setRows(rows);
+    }
+
+    public Integer getTotal() {
 		return total;
 	}
 	public void setTotal(Integer total) {
@@ -27,7 +45,7 @@ public class JsonResult implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "JsonResult [total=" + total + ", rows=" + rows ;
+		return "JsonResult [total=" + total + ", rows=" + rows.toString() + "]";
 	}
 	
 }
