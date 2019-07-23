@@ -2,6 +2,8 @@ package com.yanxue.controller;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +22,9 @@ import com.yanxue.service.impl.LectureServiceImpl;
 @Controller
 @RequestMapping("/lecture")
 public class LectureController {
+
+    private static final Logger logger = LoggerFactory.getLogger(LectureController.class);
+
     @Resource
     LectureServiceImpl service;
 
@@ -44,24 +49,29 @@ public class LectureController {
     @RequestMapping("/add.do")
     @ResponseBody
     public MyResult addDesign(Lecture design) {
+        logger.info("addDesign :{}", design);
         return service.add(design);
     }
 
     @RequestMapping("/update.do")
     @ResponseBody
     public MyResult updateDesign(Lecture design) {
+        logger.info("updateDesign :{}", design);
         return service.update(design);
     }
 
     @RequestMapping("/del.do")
     @ResponseBody
     public MyResult delDesign(String id) {
+        logger.info("delDesign id:{}", id);
+
         return service.del(id);
     }
 
     @RequestMapping("/start.do")
     @ResponseBody
     public MyResult start(String id) {
+        logger.info("start lecture id:{}", id);
         return service.start(id);
     }
     
