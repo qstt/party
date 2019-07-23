@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.yanxue.dao.SpeakDao;
-import com.yanxue.dao.StudentDao;
-import com.yanxue.entity.Check;
 import com.yanxue.entity.JsonResult;
 import com.yanxue.entity.MyResult;
 import com.yanxue.entity.Party;
@@ -21,16 +19,16 @@ import com.yanxue.util.GUID;
 @Service
 public class SpeakServiceImpl extends BaseServiceImpl<Speak> {
     @Resource
-    SpeakDao dao;
+    SpeakDao speakDao;
     
     @Override
     public MyResult add(Speak t) {
         
         try {
             //判断二维码是否失效
-            String status = dao.getStatus(t.getLecture_id());
+            String status = speakDao.getStatus(t.getLecture_id());
             if ("1".equals(status)) {
-                return new MyResult(31);
+                return new MyResult(31,"二维码已失效");
             }
             
             t.setSpeak_id(GUID.get32UUID());
@@ -38,16 +36,16 @@ public class SpeakServiceImpl extends BaseServiceImpl<Speak> {
             t.setStudent_number(number);
             
             //判断该学号是否存在
-            Party party = dao.getParty(number);
+            Party party = speakDao.getParty(number);
             if (party == null) {
                 return new MyResult(32);
             }
             
             //修改发言内容
-            Speak stu = dao.checkStudent(t.getStudent_number(), t.getLecture_id());
+            Speak stu = speakDao.checkStudent(t.getStudent_number(), t.getLecture_id());
             if (stu != null) {
                 t.setSpeak_id(stu.getSpeak_id());
-                int update = dao.update(t);
+                int update = speakDao.update(t);
                 if (update > 0) {
                     return new MyResult(2);
                 }else {
@@ -56,15 +54,15 @@ public class SpeakServiceImpl extends BaseServiceImpl<Speak> {
             }
             
           //判断一个IP是否提交多个信息
-            Speak checkIp = dao.checkIp(t.getIp(), t.getLecture_id());
+            Speak checkIp = speakDao.checkIp(t.getIp(), t.getLecture_id());
             if (checkIp != null) {
-                int i = dao.updateIp(t);
+                int i = speakDao.updateIp(t);
                 if (i > 0) {
                     return new MyResult(33);
                 }
             }
             
-            int i = dao.add(t);
+            int i = speakDao.add(t);
             if (i > 0) {
                 return new MyResult(1);
             }
@@ -81,8 +79,8 @@ public class SpeakServiceImpl extends BaseServiceImpl<Speak> {
     
 
     public JsonResult getAll(String lectureId) {
-        List<Student> list = dao.getStudents(lectureId);
-        int total = dao.getStudentsCount(lectureId);
+        List<Student> list = speakDao.getStudents(lectureId);
+        int total = speakDao.getStudentsCount(lectureId);
         JsonResult jr = new JsonResult();
         jr.setRows(list);
         jr.setTotal(total);
@@ -90,8 +88,8 @@ public class SpeakServiceImpl extends BaseServiceImpl<Speak> {
     }
 
     public JsonResult getAwardStudents(String lectureId) {
-        List<Student> list = dao.getAwardStudents(lectureId);
-        int total = dao.getAwardStudentsCount(lectureId);
+        List<Student> list = speakDao.getAwardStudents(lectureId);
+        int total = speakDao.getAwardStudentsCount(lectureId);
         JsonResult jr = new JsonResult();
         jr.setRows(list);
         jr.setTotal(total);
@@ -99,8 +97,8 @@ public class SpeakServiceImpl extends BaseServiceImpl<Speak> {
     }
 
     public JsonResult getIntentionStudents(String lectureId) {
-        List<Student> list = dao.getIntentionStudents(lectureId);
-        int total = dao.getIntentionStudentsCount(lectureId);
+        List<Student> list = speakDao.getIntentionStudents(lectureId);
+        int total = speakDao.getIntentionStudentsCount(lectureId);
         JsonResult jr = new JsonResult();
         jr.setRows(list);
         jr.setTotal(total);
@@ -110,19 +108,19 @@ public class SpeakServiceImpl extends BaseServiceImpl<Speak> {
     
 
     public MyResult getSpeakData(String lecid, Date time) {
-        List<Speak> list = dao.getSpeakData(lecid, time);
-        dao.updateSpeakDataStatus(lecid, time);
+        List<Speak> list = speakDao.getSpeakData(lecid, time);
+        speakDao.updateSpeakDataStatus(lecid, time);
         return new MyResult(list);
     }
     
     public MyResult getSpeakData_1(String lecid, Date time) {
-        List<Speak> list = dao.getSpeakData_1(lecid, time);
+        List<Speak> list = speakDao.getSpeakData_1(lecid, time);
         return new MyResult(list);
     }
 
     public MyResult addAward(String lecId, String stuId) {
         MyResult r = new MyResult();
-        int f = dao.addAward(GUID.get32UUID(), lecId, stuId);
+        int f = speakDao.addAward(GUID.get32UUID(), lecId, stuId);
         if (f > 0) {
             r.setStatus(1);
         } else {
@@ -135,11 +133,11 @@ public class SpeakServiceImpl extends BaseServiceImpl<Speak> {
         JSONArray ja = new JSONArray();
         List<Student> list = null;
         if ("attend".equals(type)) {
-            list = dao.getStudents(lectureId);
+            list = speakDao.getStudents(lectureId);
         } else if ("award".equals(type)) {
-            list = dao.getAwardStudents(lectureId);
+            list = speakDao.getAwardStudents(lectureId);
         } else if ("intention".equals(type)) {
-            list = dao.getIntentionStudents(lectureId);
+            list = speakDao.getIntentionStudents(lectureId);
         }
         for (Student bean : list) {
             ja.add(bean);
