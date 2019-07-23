@@ -9,7 +9,7 @@ package com.yanxue.constants;
 public enum LectureStatusEnum {
 
     DELETE(-1, "活动删除"),
-    NOTSTARTED(0, "活动未开始"),
+    NOTSTARTED(0, "活动未开始"), //这里本应该还有一个状态为中间态，但是这里没有，所以一个活动如果点击开始的话，就直接变成活动结束的状态了
     END(1, "活动结束"),;
 
     private int value;

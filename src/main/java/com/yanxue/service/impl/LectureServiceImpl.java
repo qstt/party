@@ -1,5 +1,9 @@
 package com.yanxue.service.impl;
 
+import com.yanxue.constants.LectureActivityEnum;
+import com.yanxue.constants.LectureStatusEnum;
+import com.yanxue.util.CollectionUtils;
+import com.yanxue.util.StringUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,8 +11,9 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import com.yanxue.dao.LectureDao;
 import com.yanxue.entity.JsonResult;
@@ -18,9 +23,11 @@ import com.yanxue.util.GUID;
 
 @Service
 public class LectureServiceImpl extends BaseServiceImpl<Lecture> {
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(LectureServiceImpl.class);
+
     @Resource
-    LectureDao dao;
+    LectureDao lectureDao;
 
     // 获取所有的未开讲的讲座
     public JsonResult getAllLecture(String username, String role, String page, String pageSize) {
@@ -30,24 +37,22 @@ public class LectureServiceImpl extends BaseServiceImpl<Lecture> {
         if ("1".equals(role)) {// 超级管理员
             map.put("page", (Integer.valueOf(page) - 1) * Integer.valueOf(pageSize));
             map.put("pageSize", Integer.parseInt(pageSize));
-            list = dao.findList(map);
-            if (!list.isEmpty()) {
+            list = lectureDao.findList(map);
+            if (CollectionUtils.isNotEmpty(list)) {
                 for (int i = 0; i < list.size(); i++) {
-                    if ("1".equals(list.get(i).getActivity())) {
+                    if (String.valueOf(LectureActivityEnum.CHECK.getValue()).equals(list.get(i).getActivity())) {
                         list.get(i).setActivity("发言");
                     } else {
                         list.get(i).setActivity("签到");
                     }
                 }
             }
-            total = dao.count(map);
+            total = lectureDao.count(map);
         } else if ("2".equals(role)) {// 讲师
             map.put("professor", username);
-            list = dao.getNewLecture(map);
+            list = lectureDao.getNewLecture(map);
         }
-        JsonResult jr = new JsonResult();
-        jr.setRows(list);
-        jr.setTotal(total);
+        JsonResult jr = new JsonResult(total, list);
         return jr;
     }
 
@@ -55,65 +60,68 @@ public class LectureServiceImpl extends BaseServiceImpl<Lecture> {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("page", (Integer.valueOf(page) - 1) * Integer.valueOf(pageSize));
         map.put("pageSize", Integer.parseInt(pageSize));
-        List<Lecture> list = dao.getOldLecture(map);
-        if (!list.isEmpty()) {
+        List<Lecture> list = lectureDao.getOldLecture(map);
+        if (CollectionUtils.isNotEmpty(list)) {
             for (int i = 0; i < list.size(); i++) {
-                if ("1".equals(list.get(i).getActivity())) {
+                if (String.valueOf(LectureActivityEnum.CHECK.getValue()).equals(list.get(i).getActivity())) {
                     list.get(i).setActivity("发言");
                 } else {
                     list.get(i).setActivity("签到");
                 }
             }
         }
-        int total = dao.getOldLectureCount();
-        JsonResult jr = new JsonResult();
-        jr.setRows(list);
-        jr.setTotal(total);
+        int total = lectureDao.getOldLectureCount();
+        JsonResult jr = new JsonResult(total, list);
         return jr;
     }
 
     public MyResult getLecture(String id) {
-        return new MyResult(dao.getLecture(id));
+        return new MyResult(lectureDao.getLecture(id));
     }
 
     @Override
     public MyResult add(Lecture t) {
         t.setId(GUID.get32UUID());
-        int i = dao.add(t);
+        int i = lectureDao.add(t);
         if (i > 0) {
             return new MyResult(1);
         }
-        return new MyResult(0);
+        logger.error("添加失败 lecture:{}", t);
+        return MyResult.failMyResult("添加失败");
     }
 
     @Override
     public MyResult update(Lecture t) {
-        int i = dao.update(t);
+        int i = lectureDao.update(t);
         if (i > 0) {
             return new MyResult(1);
         }
-        return new MyResult(0);
+        logger.error("更新失败 lecture:{}", t);
+        return MyResult.failMyResult("更新失败");
     }
 
     @Override
     public MyResult del(String id) {
-        int i = dao.del(id);
+        int i = lectureDao.del(id);
         if (i > 0) {
             return new MyResult(1);
         }
-        return new MyResult(0);
+        logger.error("删除失败 lecture id :{}", id);
+        return MyResult.failMyResult("删除失败");
     }
 
     public MyResult start(String id) {
-        Lecture activity = dao.getActivity(id);
-        if (!StringUtils.isEmpty(activity) && "1".equals(activity.getStatus())) {
+        Lecture activity = lectureDao.getActivity(id);
+        if (StringUtils.isNotBlank(activity.getActivity())
+                && String.valueOf(LectureStatusEnum.END).equals(activity.getStatus())) {
             return new MyResult(1);
         }
-        int i = dao.start(id);
+        int i = lectureDao.start(id);
         if (i > 0) {
             return new MyResult(1);
         }
-        return new MyResult(0);
+        logger.error("活动开始失败 lecture id:{}", id);
+        return MyResult.failMyResult("活动开始失败");
     }
 
     /**
@@ -121,7 +129,7 @@ public class LectureServiceImpl extends BaseServiceImpl<Lecture> {
      * @return
      */
     public Lecture getActivity(String id) {
-        return dao.getActivity(id);
+        return lectureDao.getActivity(id);
     }
 
 }
