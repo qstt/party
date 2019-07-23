@@ -52,7 +52,6 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${servlet.api.verison}</version>
-            <scope>provided</scope>
         </dependency>
 
         <!--spring framework-->
